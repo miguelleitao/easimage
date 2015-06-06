@@ -76,6 +76,10 @@ Image * imgCrop(Image *img, int x1, int y1, int x2, int y2);
 int	imgFindPattern(Image *img, Image *pattern, int *x, int *y);
 int	imgFindPatternArea(Image *img, Image *pattern, int x1, int y1, int x2, int y2, int *x, int *y);
 void 	imgDestroy(Image * img);
+void 	imgMakeSymmetricX(Image *img);
+void 	imgMakeSymmetricY(Image *img);
+void 	imgMakeSymmetric(Image *img);
+
 
 unsigned int imgGetWidth(Image * img);
 unsigned int imgGetHeight(Image * img);

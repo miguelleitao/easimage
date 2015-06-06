@@ -199,14 +199,14 @@ int imgFindPatternArea(	Image *img, 			// Image to analyze (where to search)
 	int x, y;
 	for( x=x1 ; x<x2 ; x++ )
 	for( y=y1 ; y<y2 ; y++ ) {
-//printf(" xy:%d, %d\n",x,y);
 		unsigned char * pix;
 		int diff = 0;
 		int xi, yi;
-		int sum = 0;
 		float scalef = 1.0;
 		unsigned char * pat_pix;
 #ifdef AGC_LOCAL
+		// Use Local Automaic Gain Control
+		int sum = 0;
                 for( xi=0 ; xi<pat->width ; xi++ )
                 for( yi=0 ; yi<pat->height ; yi++ ) {
                         pat_pix = imgGetPixel(img, x+xi-pat->width/2, y+yi-pat->height/2);

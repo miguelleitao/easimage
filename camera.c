@@ -19,8 +19,6 @@
 #include <asm/types.h>          /* for videodev2.h */
 
 
-//include <Python.h>
-
 #include "easimage.h"
 
 
@@ -244,7 +242,7 @@ static void camEnqueueBuffer(Camera * cam, unsigned int buffer_id)
 	return;
 }
 	
-static void BGR24_to_RGB24(	unsigned char *in, 
+void BGR24_to_RGB24(	unsigned char *in, 
 				unsigned char *out,
 				unsigned int nPixels )
 {
@@ -268,7 +266,7 @@ static void BGR24_to_RGB24(	unsigned char *in,
 	}
 }
 
-static void YUYV_to_RGB24(unsigned char *buffer_ptr, unsigned char *img_ptr, unsigned int nPixels) {
+void YUYV_to_RGB24(unsigned char *buffer_ptr, unsigned char *img_ptr, unsigned int nPixels) {
 
 	int nBytes = nPixels * 2;
 	// iterate 2 pixels at a time, so 4 bytes for YUV and 6 bytes for RGB
@@ -307,7 +305,7 @@ static void YUYV_to_RGB24(unsigned char *buffer_ptr, unsigned char *img_ptr, uns
 	}
 }
 
-static void YUYV_to_BGR24(unsigned char *in, unsigned char *out,
+void YUYV_to_BGR24(unsigned char *in, unsigned char *out,
 			unsigned int size) {
 	YUYV_to_RGB24(in,out,size);
 	BGR24_to_RGB24(out,out,size);
@@ -507,8 +505,6 @@ Camera * camOpen(char *dev_name, unsigned int width, unsigned int height, int fo
 		exit (EXIT_FAILURE);
 	}
 	cam->name = dev_name;
-	
-	//printf("Initialising device\n");
 	
 	// initialise the device
 	struct v4l2_capability cap;
