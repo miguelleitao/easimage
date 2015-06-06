@@ -23,3 +23,8 @@ libeasimage.so: camera.o image.o viewer.o util.o
 cam_test: cam_test.c
 	cc -Wall -O2 -o cam_test cam_test.c -lm libeasimage.so
 
+push:
+	git commit
+	git push  https://github.com/miguelleitao/easimage.git master
+
+
