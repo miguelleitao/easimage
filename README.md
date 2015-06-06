@@ -7,10 +7,11 @@ small computing devices.
 
 easimage was developed in C and organized into 4 main packets:
 
-*camera.c: functions related to camara handling (open, close and image capture).
-*image.c:  functions to handle image structures.
-*viewer.c: window creation and image display.
-*util.c:   other funcionalities that could not be fit elsewhere.
+* camera.c: functions related to camara handling (open, close and image capture).
+* image.c:  functions to handle image structures.
+* viewer.c: window creation and image display.
+* util.c:   other funcionalities that could not be fit elsewhere.
+
 =======
 ### Authors
 Miguel Leitao 
