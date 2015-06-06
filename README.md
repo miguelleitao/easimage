@@ -1,5 +1,6 @@
 # easimage
 simple and light image processing library
+
 =======
 ### Description
 easimage is a simple and light image processing library aimed to tutorial environments and/or
@@ -14,7 +15,8 @@ easimage was developed in C and organized into 4 main packets:
 
 =======
 ### Authors
-Miguel Leitao 
+Miguel Leitao
+
 =======
 ### License
 easimage is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License (CC BY-SA 3.0).
