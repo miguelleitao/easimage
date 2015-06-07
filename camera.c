@@ -393,12 +393,8 @@ static void camSetFormat(Camera * cam, unsigned int width, unsigned int height, 
 	cam->height = fmt.fmt.pix.height;
 	cam->format = fmt.fmt.pix.pixelformat;
 
-	//printf("Initialising memory mapped i/o\n");
-	
 	// initialise for memory mapped io
 	init_mmap (cam);
-	
-	//printf("Initiazed memory mapped i/o\n");
 	
 	// initialise streaming for capture
 	enum v4l2_buf_type type;
@@ -443,8 +439,6 @@ void camClose(Camera * cam)
 		errno_exit ("VIDIOC_STREAMOFF");
 	}
 
-	//printf("Uninitialising device\n");
-
 	// uninitialise the device
 	for (unsigned int i = 0; i < cam->n_buffers; ++i){
 		if(-1 == munmap(cam->buffers[i].start, cam->buffers[i].buf.length)){
@@ -454,8 +448,6 @@ void camClose(Camera * cam)
 	
 	// free buffers
 	free (cam->buffers);
-	
-	//printf("Closing device\n");
 
 	// close the device
 	if (-1 == close(cam->handle)){
@@ -472,7 +464,8 @@ Camera * camOpen(char *dev_name, unsigned int width, unsigned int height, int fo
 {
 	// printf("Opening the device\n");
 	
-	if ( dev_name==NULL ) dev_name = "/dev/video0";
+	if ( dev_name==NULL )	dev_name = "/dev/video0";
+	if ( format==0 )	format = YUYV;
 
 	// initialise the device
 	struct stat st; 

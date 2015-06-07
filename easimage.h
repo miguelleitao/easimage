@@ -50,8 +50,8 @@ typedef struct {
 
 
 /* Utility operations */
-void init_imgproc();
-void quit_imgproc();
+void init_easimage();
+void quit_easimage();
 void waitTime(unsigned int milliseconds);
 
 
