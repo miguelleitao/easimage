@@ -22,5 +22,7 @@ and credit to Olly Andrade, Ed Jones and Alex Lee.
 
 =======
 ### License
-easimage is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License (CC BY-SA 3.0).
+easimage is licensed under the terms of the MIT license.
+A copy of the MIT lecense can be obtainde from:
+http://opensource.org/licenses/MIT
 
