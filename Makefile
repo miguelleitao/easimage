@@ -9,15 +9,12 @@ install: libeasimage.so
 
 libeasimage.so: camera.o image.o viewer.o util.o
 	gcc -shared -Wall -O2 -Wl,-soname,$@,-z,defs -o $@ camera.o image.o viewer.o util.o -lSDL 
-#-lSDLmain
+
 
 %.o: %.c easimage.h
 	gcc -std=c99 -Wall -fPIC -O2 -c -o $@ $< 
 
-#-g -ggdb
 
-cam_test: cam_test.c
-	cc -Wall -O2 -o cam_test cam_test.c -lm libeasimage.so
 
 push:
 	git commit
