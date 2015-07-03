@@ -215,6 +215,30 @@ int imgGetSymmetryError( Image *img,
 	return error;
 }
 
+void imgPatternDifference( Image *img, Image *pat, Image *res,
+		int x1, int y1, int x2, int y2)
+{
+	int x, y;
+	for( x=x1 ; x<=x2 ; x++ )
+	for( y=y1 ; y<=y2 ; y++ ) {
+		int diff[3];
+		int xi, yi;
+		diff[0] = diff[1] = diff[2] = 0;
+		for( xi=0 ; xi<pat->width ; xi++ )
+                for( yi=0 ; yi<pat->height ; yi++ ) {
+			unsigned char *pix = imgGetPixel(img, 
+				x+xi-pat->width/2, 
+				y+yi-pat->height/2);
+			unsigned char *pat_pix = imgGetPixel(pat, xi, yi);
+			diff[0] += abs(pix[0]-(int)(pat_pix[0]));
+			diff[1] += abs(pix[1]-(int)(pat_pix[1]));	
+			diff[2] += abs(pix[2]-(int)(pat_pix[2]));
+		}
+		imgSetPixel(res, x-x1, y-y1, diff[0], diff[1], diff[2]); 
+	}
+}
+
+
 int imgFindPatternArea(	Image *img, 			// Image to analyze (where to search)
 			Image *pat, 			// Pattern Image to find (what to search)
 			int x1, int y1, int x2, int y2, // Rectangular area of img to use
@@ -235,8 +259,8 @@ int imgFindPatternArea(	Image *img, 			// Image to analyze (where to search)
 		int sum = 0;
                 for( xi=0 ; xi<pat->width ; xi++ )
                 for( yi=0 ; yi<pat->height ; yi++ ) {
-                        pat_pix = imgGetPixel(img, x+xi-pat->width/2, y+yi-pat->height/2);
-                        sum += pat_pix[0] + pat_pix[1] + pat_pix[2];
+                        pix = imgGetPixel(img, x+xi-pat->width/2, y+yi-pat->height/2);
+                        sum += pix[0] + pix[1] + pix[2];
                 }
 		scalef = 384.*pat->width*pat->height/(float)sum;
 #endif
@@ -317,12 +341,18 @@ unsigned int imgGetHeight(Image * img)
 
 void imgSetPixel(Image * img, unsigned int x, unsigned int y, char r, char g, char b)
 {
+    if ( img->depth==24 ) {
 	// calculate the offset into the image array
 	uint32_t offset = 3 * (x + (y * img->width));
 	// set the rgb value
 	img->data[offset + 2] = b;
 	img->data[offset + 1] = g;
 	img->data[offset + 0] = r;
+    }
+    else {	// 8 bit/pixel
+	uint32_t offset = x + (y * img->width);
+	img->data[offset] = (r+g+b)/3;
+    }
 }
 
 
