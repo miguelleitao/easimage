@@ -187,6 +187,7 @@ Image *imgCrop(Image *img, int x1, int y1, int x2, int y2)
 			img->data+(y*img->width+x1)*img->depth/8,
 			width*img->depth/8 );
 	return new_img;
+
 }
 
 
