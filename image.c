@@ -157,7 +157,7 @@ void imgScale(Image *img, unsigned int sfactor)
 	}
 }
 
-Image * imgCopy(Image * img)
+Image *imgCopy(Image * img)
 {
 	// Create a new empty image
 	Image * copy = imgNew(img->width, img->height, img->depth);
@@ -189,16 +189,42 @@ Image *imgCrop(Image *img, int x1, int y1, int x2, int y2)
 	return new_img;
 }
 
+
+int imgGetSymmetryError( Image *img, 
+			int x, int y, int radius ) // Square area of img to use 
+{
+	int error = 0;
+	int xi, yi;
+	if ( radius>x || radius+x>=img->width  ) return error;
+	if ( radius>y || radius+y>=img->height ) return error;
+
+	for( xi=1 ; xi<=radius ; xi++ )
+	for( yi=1 ; yi<=radius ; yi++ ) {
+		// 4 Quadrants
+		unsigned char *pix1 = imgGetPixel(img, x+xi, y+yi);
+		unsigned char *pix2 = imgGetPixel(img, x-xi, y+yi);
+		unsigned char *pix3 = imgGetPixel(img, x-xi, y-yi);
+		unsigned char *pix4 = imgGetPixel(img, x+xi, y-yi);
+		error 	+= imgGetPixelDifference(pix1,pix2) +
+			   imgGetPixelDifference(pix1,pix3) +
+			   imgGetPixelDifference(pix1,pix4) +
+			   imgGetPixelDifference(pix2,pix3) +
+			   imgGetPixelDifference(pix2,pix4) +
+			   imgGetPixelDifference(pix3,pix4) ;
+	}
+	return error;
+}
+
 int imgFindPatternArea(	Image *img, 			// Image to analyze (where to search)
 			Image *pat, 			// Pattern Image to find (what to search)
 			int x1, int y1, int x2, int y2, // Rectangular area of img to use
 			int *best_x, int *best_y) 	// Pixel location in img with best match
 {
-	int best_val = 9999;
+	int best_val = 99999;
 	*best_x = *best_y = -1;
 	int x, y;
-	for( x=x1 ; x<x2 ; x++ )
-	for( y=y1 ; y<y2 ; y++ ) {
+	for( x=x1 ; x<=x2 ; x++ )
+	for( y=y1 ; y<=y2 ; y++ ) {
 		unsigned char * pix;
 		int diff = 0;
 		int xi, yi;
@@ -301,12 +327,16 @@ void imgSetPixel(Image * img, unsigned int x, unsigned int y, char r, char g, ch
 
 
 // returns a pointer to the rgb tuple
-unsigned char * imgGetPixel(Image * img, unsigned int x, unsigned int y)
+unsigned char *imgGetPixel(Image * img, unsigned int x, unsigned int y)
 {
 	uint32_t offset = 3 * (x + (y * img->width));
 	return (unsigned char *)(img->data + offset);
 }
 
+int imgGetPixelDifference(unsigned char *p1, unsigned char *p2)
+{
+	return abs(p1[0]-p2[0]) + abs(p1[1]-p2[1]) + abs(p1[2]-p2[2]);
+}
 
 // Destroys the image
 void imgDestroy(Image * img)

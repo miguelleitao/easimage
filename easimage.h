@@ -79,7 +79,8 @@ void 	imgDestroy(Image * img);
 void 	imgMakeSymmetricX(Image *img);
 void 	imgMakeSymmetricY(Image *img);
 void 	imgMakeSymmetric(Image *img);
-
+int 	imgGetSymmetryError( Image *img, int x, int y, int radius );
+int 	imgGetPixelDifference(unsigned char *p1, unsigned char *p2);
 
 unsigned int imgGetWidth(Image * img);
 unsigned int imgGetHeight(Image * img);

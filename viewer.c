@@ -9,7 +9,7 @@ Viewer * viewOpen(unsigned int width, unsigned int height, const char * title)
 {	
 	// set up the view
 	Viewer * view = malloc(sizeof(*view));
-	if(view == NULL){
+	if (view == NULL){
 		fprintf(stderr, "Could not allocate memory for view\n");
 		return NULL;
 	}
@@ -32,6 +32,7 @@ Viewer * viewOpen(unsigned int width, unsigned int height, const char * title)
 
 void viewClose(Viewer * view)
 {
+	if ( view==NULL ) return;
 	// free the screen surface
 	SDL_FreeSurface(view->screen);
 	// free the view container
@@ -42,6 +43,7 @@ void viewClose(Viewer * view)
 // take an image and display it on the view
 void viewDisplayImage(Viewer * view, Image * img)
 {
+	if ( view==NULL ) return;
 	if ( img->format == YUYV ) {
 		fprintf(stderr,"Display of YUYV image is not implemented\n");
 		return;
