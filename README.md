@@ -18,7 +18,7 @@ easimage was developed in C and organized into 4 main packets:
 easimage is maintained by Miguel Leitao.
 easimage includes parts from the Basic Image Processing library (imgproc) available from:
 https://www.cl.cam.ac.uk/projects/raspberrypi/tutorials/robot/resources/imgproc.zip
-and credit to Olly Andrade, Ed Jones and Alex Lee.
+and credited to Olly Andrade, Ed Jones and Alex Lee.
 
 =======
 ### License
