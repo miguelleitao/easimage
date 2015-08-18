@@ -163,8 +163,9 @@ Image *imgCopy(Image * img)
 	Image * copy = imgNew(img->width, img->height, img->depth);
 
 	copy->format = img->format;
+	
 	// Copy the data between the images
-	copy = memcpy(copy->data, img->data, img->width * img->height * img->depth/8 );
+	memcpy(copy->data, img->data, img->width * img->height * img->depth/8 );
 
 	// return the copy
 	return copy;	
@@ -239,6 +240,25 @@ void imgPatternDifference( Image *img, Image *pat, Image *res,
 	}
 }
 
+float imgGetMeanArea(	Image *img, 			// Image to analyze (where to search)
+			int x1, int y1, int x2, int y2) // Rectangular area of img to use
+			
+{
+	int x, y, p;
+	int total = 0;
+	int comp = img->depth/8;
+	for( x=x1 ; x<=x2 ; x++ )
+	for( y=y1 ; y<=y2 ; y++ ) {
+		unsigned char * pix = imgGetPixel(img,x,y);
+		for( p=0 ; p<comp ; p++ )
+			total += pix[p];
+	}
+	return (float)total / (float)( (x2-x1+1) * (y2-y1+1) * comp );
+}
+
+float imgGetMean(Image *img) {
+	return imgGetMeanArea(img, 0, 0, img->width, img->height);
+}
 
 int imgFindPatternArea(	Image *img, 			// Image to analyze (where to search)
 			Image *pat, 			// Pattern Image to find (what to search)
@@ -372,12 +392,16 @@ int imgGetPixelDifference(unsigned char *p1, unsigned char *p2)
 // Destroys the image
 void imgDestroy(Image * img)
 {
+	if ( img==NULL ) {
+		fprintf(stderr,"Cannot destroy NULL image\n");
+		return;
+	}
 	// Free the SDL surface
 	//SDL_FreeSurface(img->sdl_surface);
 	if(img->mem_ptr != NULL){
 		free(img->mem_ptr);
 	}
-	// Free the image container, Python will handle the memoryview + buffer
+	// Free the image container
 	free(img);
 }
 
