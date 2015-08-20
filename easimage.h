@@ -12,6 +12,8 @@
 #define BGR24 	V4L2_PIX_FMT_BGR24
 #define YUYV 	V4L2_PIX_FMT_YUYV
 #define RGB32 	V4L2_PIX_FMT_RGB32
+#define RGBA32   V4L2_PIX_FMT_RGB32
+
 
 #define min(a,b) ( a<b ? a : b )
 #define max(a,b) ( a>b ? a : b )
@@ -38,6 +40,7 @@ typedef struct {
 	unsigned int format;
 	unsigned char * mem_ptr;
 	unsigned char * data;
+	char *name;
 } Image;
 
 
@@ -70,6 +73,7 @@ Image * imgNew(unsigned int width, unsigned int height, unsigned short int depth
 Image * imgFromBitmap(const char * filename);
 Image * imgFromPPM(const char * filename);
 int 	imgSavePPM(Image *img, char *fname);
+int     imgSavePAM(Image *img, char *fname);
 Image * imgCopy(Image * img);
 void 	imgScale(Image *img, unsigned int sfactor);
 Image * imgCrop(Image *img, int x1, int y1, int x2, int y2);
@@ -87,7 +91,10 @@ float 	imgGetMean(Image *img);
 
 unsigned int imgGetWidth(Image * img);
 unsigned int imgGetHeight(Image * img);
-void imgSetPixel(Image * img, unsigned int x, unsigned int y, char r, char g, char b);
+void imgSetPixel(Image * img, unsigned int x, unsigned int y, unsigned char r, unsigned char g, unsigned char b);
+void imgSetPixelRGB(Image * img, unsigned int x, unsigned int y, unsigned char r, unsigned char g, unsigned char b);
+void imgSetPixelRGBA(Image * img, unsigned int x, unsigned int y, unsigned char r, unsigned char g, unsigned char b, unsigned char a);
+
 unsigned char * imgGetPixel(Image * img, unsigned int x, unsigned int y);
 unsigned char * imgPixel(Image * img, unsigned int x, unsigned int y);
 

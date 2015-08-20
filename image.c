@@ -23,6 +23,8 @@ Image * imgNew(unsigned int width, unsigned int height, unsigned short depth)
 
 	img->depth = depth;
 	img->format = 0;
+	img->name = NULL;
+
 
 	// allocate for image data, depth/8 byte per pixel,
 	// aligned to an 8 byte boundary
@@ -86,6 +88,7 @@ Image *imgFromBitmap(const char * filename)
 	img->height = bitmap->h;
 	img->format = RGB24;
 	img->depth = 24;
+	img->name = strdup(filename);
 
 	// set the data pointer
 	img->data = bitmap->pixels;	
@@ -132,6 +135,7 @@ Image *imgFromPPM(const char * filename)
                 return NULL;
         }
 	img->format = BGR24;
+        img->name = strdup(filename);
 	fgetc(fimg);	
 	int i;
 	unsigned char *img_ptr = img->data;
@@ -360,11 +364,11 @@ unsigned int imgGetHeight(Image * img)
 }
 
 
-void imgSetPixel(Image * img, unsigned int x, unsigned int y, char r, char g, char b)
+void imgSetPixel(Image * img, unsigned int x, unsigned int y, unsigned char r, unsigned char g, unsigned char b)
 {
-    if ( img->depth==24 ) {
-	// calculate the offset into the image array
-	uint32_t offset = 3 * (x + (y * img->width));
+    // calculate the offset into the image array
+    uint32_t offset = img->depth/8 * (x + (y * img->width));
+    if ( img->depth>=24 ) {
 	// set the rgb value
 	img->data[offset + 2] = b;
 	img->data[offset + 1] = g;
@@ -377,10 +381,66 @@ void imgSetPixel(Image * img, unsigned int x, unsigned int y, char r, char g, ch
 }
 
 
+void imgSetPixelRGB(Image * img, unsigned int x, unsigned int y, unsigned char r, unsigned char g, unsigned char b)
+{
+    // calculate the offset into the image array
+    uint32_t offset = img->depth/8 * (x + (y * img->width));
+    if ( img->depth>=24 ) {
+	// set the rgb value
+	if ( img->format==BGR24 ) {
+		img->data[offset + 0] = b;
+		img->data[offset + 1] = g;
+		img->data[offset + 2] = r;
+	}
+	else {
+		img->data[offset + 0] = r;
+		img->data[offset + 1] = g;
+		img->data[offset + 2] = b;
+	}
+    }
+    else {	// 8 bit/pixel
+	img->data[offset] = (r+g+b)/3;
+    }
+}
+
+void imgSetPixelRGBA(Image * img, unsigned int x, unsigned int y, 
+		unsigned char r, unsigned char g, unsigned char b, unsigned char a)
+{
+    // calculate the offset into the image array
+    uint32_t offset = img->depth/8 * (x + (y * img->width));
+    if ( img->depth>=24 ) {
+	// set the rgb value
+	switch ( img->format ) {
+	    case BGR24:
+		img->data[offset + 0] = b;
+		img->data[offset + 1] = g;
+		img->data[offset + 2] = r;
+		break;
+	    case RGB24:
+		img->data[offset + 0] = r;
+		img->data[offset + 1] = g;
+		img->data[offset + 2] = b;
+		break;
+	    case RGBA32:
+		img->data[offset + 0] = r;
+		img->data[offset + 1] = g;
+		img->data[offset + 2] = b;
+		img->data[offset + 3] = a;
+		break;
+	    default:
+		fprintf(stderr,"SetPixelRGBA not implemented for this format\n");
+	}
+    }
+    else {	// 8 bit/pixel
+	uint32_t offset = x + (y * img->width);
+	img->data[offset] = (r+g+b)/3;
+    }
+}
+
 // returns a pointer to the rgb tuple
 unsigned char *imgGetPixel(Image * img, unsigned int x, unsigned int y)
 {
-	uint32_t offset = 3 * (x + (y * img->width));
+	uint32_t offset = img->depth/8 * (x + (y * img->width));
 	return (unsigned char *)(img->data + offset);
 }
 
@@ -448,3 +508,57 @@ int imgSavePPM(Image *img, char *fname) {
     fclose(outfd);
     return 0;
 }
+
+int imgSavePAM(Image *img, char *fname) {
+/*
+    if ( img->depth != 24 ) {
+        fprintf(stderr, "SavePAM is only avilable for 24 bit depth images\n");
+        return 1;
+    }
+*/
+    printf("escrevendo frame com %d bytes/pix, para '%s'\n",img->depth/8,fname);
+    FILE *outfd = fopen(fname, "w");
+    if ( outfd==NULL ) {
+        perror(strcat("Opening file ",fname));
+        return 1;
+    }
+
+    fprintf(outfd, "P7\nWIDTH %d\nHEIGHT %d\nDEPTH %d\nMAXVAL 255\n", img->width, img->height, img->depth/8);
+    if ( img->depth>24 ) 	fprintf(outfd, "TUPLTYPE RGB_ALPHA\n");
+    else if ( img->depth<=8 )	fprintf(outfd, "TUPLTYPE GRAYSCALE\n");
+    else 			fprintf(outfd, "TUPLTYPE RGB\n");
+    fprintf(outfd, "ENDHDR\n");
+    unsigned int i;
+    unsigned int image_len = img->width * img->height;
+    unsigned char *img_ptr = img->data;
+    switch ( img->format ) {
+	case BGR24:
+	    for( i=0 ; i<image_len ; i++ ) {
+		fputc(img_ptr[2], outfd);
+		fputc(img_ptr[1], outfd);
+		fputc(img_ptr[0], outfd);
+		img_ptr +=3;
+	    }
+	    break;
+	case RGB24:
+	    for( i=0 ; i<image_len ; i++ ) {
+		fputc(img_ptr[0], outfd);
+		fputc(img_ptr[1], outfd);
+		fputc(img_ptr[2], outfd);
+		img_ptr +=3;
+	    }
+	    break;
+	case RGBA32:
+	    for( i=0 ; i<image_len ; i++ ) {
+		fputc(img_ptr[0], outfd);
+		fputc(img_ptr[1], outfd);
+		fputc(img_ptr[2], outfd);
+		fputc(img_ptr[3], outfd);
+		img_ptr += 4;
+	    }
+	    break;
+    }		
+    fclose(outfd);
+    return 0;
+}
+

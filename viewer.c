@@ -43,25 +43,42 @@ void viewClose(Viewer * view)
 // take an image and display it on the view
 void viewDisplayImage(Viewer * view, Image * img)
 {
-	if ( view==NULL ) return;
+	Uint32 r_mask = 0x000000ff;
+	Uint32 g_mask = 0x0000ff00;
+	Uint32 b_mask = 0x00ff0000;
+	Uint32 a_mask = 0x00000000;
+
+	if ( img==NULL ) {
+		fprintf(stderr,"No image to display\n");
+		return;
+	}
 	if ( img->format == YUYV ) {
 		fprintf(stderr,"Display of YUYV image is not implemented\n");
 		return;
 	}
-	if ( img->format == RGB24 ) 
-		fprintf(stderr,"Display of RGB image\n");
+
+	if ( img->format == BGR24 )  {
+		r_mask = 0xff0000;
+		b_mask = 0x0000ff;
+	}
+	if ( img->format == RGBA32 ) 
+		a_mask = 0xff000000;
+        if ( view==NULL ) {
+                view = viewOpen(img->width,img->height,img->name);
+        }
+
 	SDL_Surface *surf;
 	// Fill the SDL_Surface container
 	surf = SDL_CreateRGBSurfaceFrom(
 				img->data,
 				img->width,
 				img->height,
-				24, 
-				img->width * 3,
-				0xff0000,
-				0x00ff00,
-				0x0000ff,
-				0x000000
+				img->depth, 
+				img->width * img->depth/8,
+				r_mask,
+				g_mask,
+				b_mask,
+				a_mask
 	);
 
 
