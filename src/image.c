@@ -7,7 +7,7 @@
 #include <unistd.h>
 #include "easimage.h"
 
-
+///< Allocates a new image
 Image * imgNew(unsigned int width, unsigned int height, unsigned short depth)
 {
 	// Allocate for the image container
@@ -70,7 +70,7 @@ Image * imgNew(unsigned int width, unsigned int height, unsigned short depth)
 	return img;
 }
 
-
+///< Creates a new image from image file
 Image *imgFromBitmap(const char * filename)
 {
 	// Load the Bitmap
@@ -224,6 +224,8 @@ int imgGetSymmetryError( Image *img,
 void imgPatternDifference( Image *img, Image *pat, Image *res,
 		int x1, int y1, int x2, int y2)
 {
+	// res = abs(img-pat)
+	// res must have size: x2-x1+, y2-y1+1
 	int x, y;
 	for( x=x1 ; x<=x2 ; x++ )
 	for( y=y1 ; y<=y2 ; y++ ) {
@@ -350,6 +352,21 @@ void imgMakeSymmetric(Image *img)
 {
 	imgMakeSymmetricX(img);
 	imgMakeSymmetricY(img);
+}
+
+int imgGetSymmetricError(Image *img,
+	 int x1, x2, y1, y2;
+{
+	int error = 0;
+	int xi1,yi1,xi2,yi2;
+	for( xi1=x1, xi2=x2 ; xi1<xi2 ; xi1++, xi2-- )
+	for( yi1=y1, yi2=y2 ; yi1<yi2 ; yi1++, yi2-- ) {
+		unsigned char *p1, *p2;
+                p1 = imgGetPixel(img, xi1, yi1);
+                p2 = imgGetPixel(img, xi2, yi2);
+		error += abs( p1[0]-p2[0] ) + abs( p1[1]-p2[1] ) + abs( p1[2]-p2[2] );
+	}
+	return error;
 }
 
 unsigned int imgGetWidth(Image * img)

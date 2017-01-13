@@ -19,36 +19,36 @@
 #define min(a,b) ( a<b ? a : b )
 #define max(a,b) ( a>b ? a : b )
 
-// forward declarations of internal types
+///< forward declarations of internal types
 struct Buffer;
 
-
+///< Represents an image caturing device
 typedef struct {
-	unsigned int width;
-	unsigned int height;
-	unsigned int format;
-	char * name;
-	int handle;
-	struct Buffer * buffers;
-	unsigned int n_buffers;
+	unsigned int width;	 ///< The width of the camera frame (Number of columns)
+	unsigned int height;	 ///< The height of the camera frame  (Number of rows)
+	unsigned int format;	 ///< Format identifier
+	char *name;	 	 ///< The name of the device
+	int handle;		 ///< The stream handle
+	struct Buffer * buffers; ///< location of image buffers
+	unsigned int n_buffers;	 ///< Number of allocated buffers
 } Camera;
 
-
+///< Stores an image
 typedef struct {
-	unsigned int width;
-	unsigned int height;
-	unsigned short int depth;
-	unsigned int format;
-	unsigned char * mem_ptr;
-	unsigned char * data;
-	char *name;
+	unsigned int width;		///< The width of the image (Number of columns)
+	unsigned int height;		///< The height of the image (Number of rows)
+	unsigned short int depth;	///< The depth of the image (number of bit per pixel)
+	unsigned int format;		///< Format identifier
+	unsigned char * mem_ptr;	///< location of image buffers
+	unsigned char * data;		///< location of pixel data
+	char *name;	 	 	///< The name of the image
 } Image;
 
-
+///< Represents an image presenting device
 typedef struct {
-	unsigned int width;
-	unsigned int height;
-	SDL_Surface * screen;
+	unsigned int width;		///< The width of the image (Number of columns)
+	unsigned int height;		///< The height of the image (Number of rows)
+	SDL_Surface * screen;		///< Pointer to screen surface
 } Viewer;
 
 
@@ -59,7 +59,7 @@ void quit_easimage();
 void waitTime(unsigned int milliseconds);
 
 
-/* Webcam operations */
+/** Webcam operations */
 Camera * camOpen(char *dev_name, unsigned int width, unsigned int height, int format);
 unsigned int camGetWidth(Camera * cam);
 unsigned int camGetHeight(Camera * cam);
@@ -69,7 +69,7 @@ void camClose(Camera * cam);
 int camPrintCaps(Camera *cam);
 
 
-/* Image operations */
+/** Image operations */
 Image * imgNew(unsigned int width, unsigned int height, unsigned short int depth);
 Image * imgFromBitmap(const char * filename);
 Image * imgFromPPM(const char * filename);
