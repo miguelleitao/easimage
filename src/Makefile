@@ -9,7 +9,7 @@ install: libeasimage.so
 	cp easimage.h /usr/include/
 
 libeasimage.so: camera.o image.o viewer.o util.o
-	gcc -shared -Wall -O2 -Wl,-soname,$@,-z,defs -o $@ camera.o image.o viewer.o util.o -lSDL 
+	gcc -shared -Wall -O2 -Wl,-soname,$@,-z,defs -o $@ $^ -lSDL 
 
 %.o: %.c easimage.h
 	gcc -Wall -fPIC -O2 -c -o $@ $< 
