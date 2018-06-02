@@ -1,0 +1,6 @@
+language: c
+sudo: false
+install:
+  - sudo apt update && sudo apt -y install libsdl1.2-dev
+script:
+  - make
