@@ -1,7 +1,7 @@
+[![Build Status](https://travis-ci.org/miguelleitao/easimage.svg?branch=master "Build Status")](https://travis-ci.org/miguelleitao/easimage)
 # easimage
 simple and light image processing library
 
-=======
 ### Description
 easimage is a simple and light image processing library aimed to tutorial environments and/or
 small computing devices.
@@ -13,7 +13,6 @@ easimage was developed in C and organized into 4 main packets:
 * viewer.c: window creation and image display.
 * util.c:   other funcionalities that could not be fit elsewhere.
 
-=======
 ### Authors
 easimage is maintained by Miguel Leitao.
 easimage includes parts from the Basic Image Processing library (imgproc) available from:
