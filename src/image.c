@@ -354,8 +354,7 @@ void imgMakeSymmetric(Image *img)
 	imgMakeSymmetricY(img);
 }
 
-int imgGetSymmetricError(Image *img,
-	 int x1, x2, y1, y2;
+int imgGetSymmetricError(Image *img, int x1, int x2, int y1, int y2)
 {
 	int error = 0;
 	int xi1,yi1,xi2,yi2;
