@@ -246,9 +246,10 @@ void BGR24_to_RGB24(	unsigned char *in,
 				unsigned char *out,
 				unsigned int nPixels )
 {
+	uint32_t i;
 	if ( in==out ) {
 		// iterate 1 pixels at a time, so 3 bytes for RGB or GBR
-		for(uint32_t i = 0 ; i < nPixels ; i++ ) {
+		for(i = 0 ; i < nPixels ; i++ ) {
 			unsigned char temp = in[2];
 			in[2] = in[0];
 			in[0] = temp;
@@ -257,7 +258,7 @@ void BGR24_to_RGB24(	unsigned char *in,
 		return;
 	}
 	// iterate 1 pixels at a time, so 3 bytes for RGB or GBR
-	for(uint32_t i = 0 ; i < nPixels ; i++ ) {
+	for(i = 0 ; i < nPixels ; i++ ) {
 		out[0] = in[2];
 		out[1] = in[1];
 		out[2] = in[0];
@@ -270,7 +271,8 @@ void YUYV_to_RGB24(unsigned char *buffer_ptr, unsigned char *img_ptr, unsigned i
 
 	int nBytes = nPixels * 2;
 	// iterate 2 pixels at a time, so 4 bytes for YUV and 6 bytes for RGB
-	for(uint32_t i = 0, j = 0; i < nBytes; i+=4, j+=6){
+	uint32_t i, j;
+	for(i = 0, j = 0; i < nBytes; i+=4, j+=6){
 		// jml, May 2015
 		// Add unsigned
 		unsigned char * buffer_pos = buffer_ptr + i;
@@ -400,7 +402,8 @@ static void camSetFormat(Camera * cam, unsigned int width, unsigned int height, 
 	enum v4l2_buf_type type;
 	
 	// queue buffers ready for capture
-	for (unsigned int i = 0; i < cam->n_buffers; ++i) {
+	unsigned int i;
+	for ( i = 0; i < cam->n_buffers; ++i) {
 		// buffers are initialised, so just call the enqueue function
 		camEnqueueBuffer(cam, i);		
 	}
@@ -440,7 +443,8 @@ void camClose(Camera * cam)
 	}
 
 	// uninitialise the device
-	for (unsigned int i = 0; i < cam->n_buffers; ++i){
+	unsigned int i;
+	for (i = 0; i < cam->n_buffers; ++i){
 		if(-1 == munmap(cam->buffers[i].start, cam->buffers[i].buf.length)){
 			errno_exit("munmap");
 		}
