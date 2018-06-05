@@ -23,9 +23,8 @@ small computing devices.
 https://www.cl.cam.ac.uk/projects/raspberrypi/tutorials/robot/resources/imgproc.zip
 and credited to Olly Andrade, Ed Jones and Alex Lee.
 
-=======
 ### License
-easimage is licensed under the terms of the MIT license.
+**easimage** is licensed under the terms of the MIT license.
 A copy of the MIT lecense can be found at:
 http://opensource.org/licenses/MIT
 
