@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/miguelleitao/easimage.svg?branch=master "Build Status")](https://travis-ci.org/miguelleitao/easimage)
+[![Documentation](https://codedocs.xyz/miguelleitao/easimage.svg)](https://codedocs.xyz/miguelleitao/easimage/)
 # easimage
 simple and light image processing library
 
