@@ -1,3 +1,4 @@
+# Makefile for easimage
 
 all: easimage
 
