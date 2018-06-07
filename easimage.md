@@ -1,5 +1,5 @@
 \mainpage easimage
-simple and light image processing library
+Simple and light image processing library
 
 ### Description
 **easimage** is a simple and light image processing library aimed to tutorial environments and/or
@@ -13,6 +13,7 @@ small computing devices.
 * util.c:   other funcionalities that could not be fit elsewhere.
 
 ### Building **easimage**
+
     git clone https://github.com/miguelleitao/easimage.git
     cd easimage
     make
