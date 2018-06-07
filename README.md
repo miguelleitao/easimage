@@ -14,6 +14,12 @@ small computing devices.
 * viewer.c: window creation and image display.
 * util.c:   other funcionalities that could not be fit elsewhere.
 
+### Building **easimage**
+    git clone https://github.com/miguelleitao/easimage.git
+    cd easimage
+    make
+    sudo make install
+
 ### Documentation
 **easimage** documentation is available from https://codedocs.xyz/miguelleitao/easimage/
 
