@@ -1,11 +1,17 @@
 # Makefile for easimage
 
-all: easimage
+TARGET=easimage
 
-easimage: src/libeasimage.so
+all: ${TARGET}
+
+${TARGET}: src/libeasimage.so
 
 src/libeasimage.so:
 	$(MAKE) -C src
+
+${TARGET}.md: README.md
+	echo "\mainpage easimage" >$@
+	cat $^ |grep -v \^.! |grep -v \^\#\ ${TARGET} >> $@
 
 clean:
 	$(MAKE) -C src clean
