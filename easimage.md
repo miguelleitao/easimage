@@ -1,2 +1,2 @@
 \mainpage easimage
-\includedoc ./README.md
+\includedoc README.md
