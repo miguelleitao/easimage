@@ -13,7 +13,7 @@
 #include <linux/videodev2.h>
 #include <SDL/SDL.h>
 
-/*! \defgroup format Image storing formats 
+/** \defgroup format Image storing formats 
  *  \addtogroup format
  *  @{
  *  Image storing formats
@@ -63,7 +63,7 @@ typedef struct {
 } Viewer;
 
 
-/*! \defgroup util Utility functions 
+/** \defgroup util Utility functions 
  *  \addtogroup util
  *  @{
  *  Utility functions
@@ -75,7 +75,7 @@ void quit_easimage();
 void waitTime(unsigned int milliseconds);
 /** @}*/
 
-/*! \defgroup camera Camera operations 
+/** \defgroup camera Camera operations 
  *  \addtogroup camera
  *  @{
  *  Functions to get info and image data from a connected camera
