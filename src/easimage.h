@@ -15,8 +15,8 @@
 
 /*! \defgroup format Image storing formats 
  *  \addtogroup format
- *  Image storing formats
  *  @{
+ *  Image storing formats
  */
 #define RGB24 	V4L2_PIX_FMT_RGB24
 #define BGR24 	V4L2_PIX_FMT_BGR24
@@ -65,8 +65,8 @@ typedef struct {
 
 /*! \defgroup util Utility functions 
  *  \addtogroup util
- *  Utility functions
  *  @{
+ *  Utility functions
  */
 /** @brief Init easimage */
 void init_easimage();
@@ -77,8 +77,8 @@ void waitTime(unsigned int milliseconds);
 
 /*! \defgroup camera Camera operations 
  *  \addtogroup camera
- *  Functions to get info and image data from a connected camera
  *  @{
+ *  Functions to get info and image data from a connected camera
  */
 Camera * camOpen(char *dev_name, unsigned int width, unsigned int height, int format);
 unsigned int camGetWidth(Camera * cam);
@@ -108,7 +108,7 @@ void 	imgDestroy(Image * img);
 void 	imgMakeSymmetricX(Image *img);
 void 	imgMakeSymmetricY(Image *img);
 void 	imgMakeSymmetric(Image *img);
-int 	imgGetSymmetryError( Image *img, int x, int y, int radius );
+int 	imgGetSymmetryError(Image *img, int x, int y, int radius);
 int 	imgGetPixelDifference(unsigned char *p1, unsigned char *p2);
 float 	imgGetMeanArea(	Image *img, 			 // Image to analyze (where to search)
 			int x1, int y1, int x2, int y2); // Rectangular area of img to use
@@ -122,7 +122,6 @@ void imgSetPixelRGBA(Image * img, unsigned int x, unsigned int y, unsigned char 
 
 unsigned char * imgGetPixel(Image * img, unsigned int x, unsigned int y);
 unsigned char * imgPixel(Image * img, unsigned int x, unsigned int y);
-
 /** @}*/
 
 /* Viewer operations */
