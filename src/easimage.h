@@ -13,9 +13,9 @@
 #include <linux/videodev2.h>
 #include <SDL/SDL.h>
 
-/*! Image storing formats
- *  \defgroup format Image storing formats 
+/*! \defgroup format Image storing formats 
  *  \addtogroup format
+ *  Image storing formats
  *  @{
  */
 #define RGB24 	V4L2_PIX_FMT_RGB24
@@ -63,20 +63,21 @@ typedef struct {
 } Viewer;
 
 
-/*! Utility functions
- *  \defgroup util Utility functions 
+/*! \defgroup util Utility functions 
  *  \addtogroup util
+ *  Utility functions
  *  @{
  */
-/* Utility operations */
+/** @brief Init easimage */
 void init_easimage();
+/** @brief Quit easimage */
 void quit_easimage();
 void waitTime(unsigned int milliseconds);
 /** @}*/
 
-/*! Functions to get info and image data from a connected camera
- *  \defgroup camera Camera operations 
+/*! \defgroup camera Camera operations 
  *  \addtogroup camera
+ *  Functions to get info and image data from a connected camera
  *  @{
  */
 Camera * camOpen(char *dev_name, unsigned int width, unsigned int height, int format);
