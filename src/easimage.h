@@ -33,7 +33,7 @@ typedef struct {
 	unsigned int n_buffers;	 ///< Number of allocated buffers
 } Camera;
 
-///< Stores an image
+//! Stores an image
 typedef struct {
 	unsigned int width;		///< The width of the image (Number of columns)
 	unsigned int height;		///< The height of the image (Number of rows)
