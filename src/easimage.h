@@ -1,6 +1,11 @@
-/*
-	easimage.h
-*/
+/**
+ * @file 	easimage.h
+ *
+ * @author	Miguel Leitao
+ *
+ * Easimage headerfile
+ *
+ */
 
 #ifndef _EASIMAGE_H_
 #define _EASIMAGE_H_
@@ -8,13 +13,18 @@
 #include <linux/videodev2.h>
 #include <SDL/SDL.h>
 
+/*! Image storing formats
+ *  \defgroup format Image storing formats 
+ *  \addtogroup format
+ *  @{
+ */
 #define RGB24 	V4L2_PIX_FMT_RGB24
 #define BGR24 	V4L2_PIX_FMT_BGR24
 #define YUYV 	V4L2_PIX_FMT_YUYV
 #define RGB32 	V4L2_PIX_FMT_RGB32
 #define RGBA32  V4L2_PIX_FMT_RGB32
 #define RGB48	V4L2_PIX_FMT_RGB48
-
+/** @}*/
 
 #define min(a,b) ( a<b ? a : b )
 #define max(a,b) ( a>b ? a : b )
@@ -23,8 +33,7 @@
 //forward declarations of internal types
 struct Buffer;
 
-//! Represents an image caturing device
-//! \addtogroup camera
+//! Represents an image capturing device
 typedef struct {
 	unsigned int width;	 ///< The width of the camera frame (Number of columns)
 	unsigned int height;	 ///< The height of the camera frame  (Number of rows)
@@ -54,17 +63,21 @@ typedef struct {
 } Viewer;
 
 
-
+/*! Utility functions
+ *  \defgroup util Utility functions 
+ *  \addtogroup util
+ *  @{
+ */
 /* Utility operations */
 void init_easimage();
 void quit_easimage();
 void waitTime(unsigned int milliseconds);
+/** @}*/
 
-
-/*! \defgroup camera Camera operations 
+/*! Functions to get info and image data from a connected camera
+ *  \defgroup camera Camera operations 
  *  \addtogroup camera
  *  @{
- *  Functions to get info and image data from a connected camera
  */
 Camera * camOpen(char *dev_name, unsigned int width, unsigned int height, int format);
 unsigned int camGetWidth(Camera * cam);
