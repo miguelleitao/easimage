@@ -22,7 +22,7 @@
 ///< forward declarations of internal types
 struct Buffer;
 
-///< Represents an image caturing device
+//! Represents an image caturing device
 typedef struct {
 	unsigned int width;	 ///< The width of the camera frame (Number of columns)
 	unsigned int height;	 ///< The height of the camera frame  (Number of rows)
@@ -44,7 +44,7 @@ typedef struct {
 	char *name;	 	 	///< The name of the image
 } Image;
 
-///< Represents an image presenting device
+//! Represents an image presenting device
 typedef struct {
 	unsigned int width;		///< The width of the image (Number of columns)
 	unsigned int height;		///< The height of the image (Number of rows)
@@ -69,7 +69,11 @@ void camClose(Camera * cam);
 int camPrintCaps(Camera *cam);
 
 
-/** Image operations */
+/** \defgroup Image Image operations */
+
+/** \addtogroup Image
+ *  @{
+ */	
 Image * imgNew(unsigned int width, unsigned int height, unsigned short int depth);
 Image * imgFromBitmap(const char * filename);
 Image * imgFromPPM(const char * filename);
@@ -99,6 +103,7 @@ void imgSetPixelRGBA(Image * img, unsigned int x, unsigned int y, unsigned char 
 unsigned char * imgGetPixel(Image * img, unsigned int x, unsigned int y);
 unsigned char * imgPixel(Image * img, unsigned int x, unsigned int y);
 
+/** @}*/
 
 /* Viewer operations */
 Viewer * viewOpen(unsigned int width, unsigned int height, const char * title);
