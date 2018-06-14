@@ -140,5 +140,5 @@ void viewDisplayImage(Viewer * view, Image * img);
 void viewClose(Viewer * view);
 /** @}*/
 
-#endif // _IMGPROC_H_
+#endif // _EASIMAGE_H_
 
