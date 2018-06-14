@@ -19,7 +19,8 @@
 #define min(a,b) ( a<b ? a : b )
 #define max(a,b) ( a>b ? a : b )
 
-///< forward declarations of internal types
+//! Memory block to store image data
+//forward declarations of internal types
 struct Buffer;
 
 //! Represents an image caturing device
@@ -59,7 +60,9 @@ void quit_easimage();
 void waitTime(unsigned int milliseconds);
 
 
-/** Webcam operations */
+/*! \defgroup camera Camera operations 
+ * Functions to get info and image data from a connected camera
+ */
 Camera * camOpen(char *dev_name, unsigned int width, unsigned int height, int format);
 unsigned int camGetWidth(Camera * cam);
 unsigned int camGetHeight(Camera * cam);
@@ -67,12 +70,12 @@ Image * camGrabNewImage(Camera * cam);
 int camGrabImage(Camera * cam, Image * img);
 void camClose(Camera * cam);
 int camPrintCaps(Camera *cam);
+/** @}*/
 
-
-/** \defgroup Image Image operations */
-
-/** \addtogroup Image
+/** \defgroup image Image operations 
+ *  \addtogroup image
  *  @{
+ *  Functions to create and process image structures
  */	
 Image * imgNew(unsigned int width, unsigned int height, unsigned short int depth);
 Image * imgFromBitmap(const char * filename);
@@ -106,10 +109,19 @@ unsigned char * imgPixel(Image * img, unsigned int x, unsigned int y);
 /** @}*/
 
 /* Viewer operations */
+/** \defgroup view Viewer operations 
+ *  \addtogroup view
+ *  @{
+ *  Functions to display images
+ */	
 Viewer * viewOpen(unsigned int width, unsigned int height, const char * title);
+//! Display an Image
+/*! Image Img is presented on viewer window view
+ *  Viewer window must be previously created using viewOpen()
+ */
 void viewDisplayImage(Viewer * view, Image * img);
 void viewClose(Viewer * view);
-
+/** @}*/
 
 #endif // _IMGPROC_H_
 
