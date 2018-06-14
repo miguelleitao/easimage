@@ -24,6 +24,7 @@
 struct Buffer;
 
 //! Represents an image caturing device
+//! \addtogroup camera
 typedef struct {
 	unsigned int width;	 ///< The width of the camera frame (Number of columns)
 	unsigned int height;	 ///< The height of the camera frame  (Number of rows)
@@ -61,7 +62,9 @@ void waitTime(unsigned int milliseconds);
 
 
 /*! \defgroup camera Camera operations 
- * Functions to get info and image data from a connected camera
+ *  \addtogroup camera
+ *  @{
+ *  Functions to get info and image data from a connected camera
  */
 Camera * camOpen(char *dev_name, unsigned int width, unsigned int height, int format);
 unsigned int camGetWidth(Camera * cam);
@@ -115,9 +118,10 @@ unsigned char * imgPixel(Image * img, unsigned int x, unsigned int y);
  *  Functions to display images
  */	
 Viewer * viewOpen(unsigned int width, unsigned int height, const char * title);
-//! Display an Image
-/*! Image Img is presented on viewer window view
- *  Viewer window must be previously created using viewOpen()
+//! Displays an Image
+/*! 
+ *  Image @p img is presented on viewer window @p view.
+ *  Viewer window must be previously created using @c viewOpen()
  */
 void viewDisplayImage(Viewer * view, Image * img);
 void viewClose(Viewer * view);
