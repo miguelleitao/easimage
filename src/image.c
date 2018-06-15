@@ -16,7 +16,12 @@
 #include <unistd.h>
 #include "easimage.h"
 
-///< Allocates a new image
+/**  
+ *  \addtogroup image
+ *  @{
+ */
+
+//! Allocates a new image
 Image * imgNew(unsigned int width, unsigned int height, unsigned short depth)
 {
 	// Allocate for the image container
@@ -79,7 +84,7 @@ Image * imgNew(unsigned int width, unsigned int height, unsigned short depth)
 	return img;
 }
 
-///< Creates a new image from image file
+//! Creates a new image from a BMP image file
 Image *imgFromBitmap(const char * filename)
 {
 	// Load the Bitmap
@@ -112,6 +117,7 @@ Image *imgFromBitmap(const char * filename)
 	return img;
 }
 
+//! Creates a new image from a PPM image file
 Image *imgFromPPM(const char * filename)
 {
 	FILE *fimg = fopen(filename, "r");
@@ -159,6 +165,7 @@ Image *imgFromPPM(const char * filename)
 	return img;
 }
 
+//! Scales an image
 void imgScale(Image *img, unsigned int sfactor) 
 {
 	int p;
