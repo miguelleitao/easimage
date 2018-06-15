@@ -109,6 +109,7 @@ void 	imgMakeSymmetricX(Image *img);
 void 	imgMakeSymmetricY(Image *img);
 void 	imgMakeSymmetric(Image *img);
 int 	imgGetSymmetryError(Image *img, int x, int y, int radius);
+Image * imgPatternDifference( Image *img, Image *pat, Image *res, int x1, int y1, int x2, int y2);
 int 	imgGetPixelDifference(unsigned char *p1, unsigned char *p2);
 float 	imgGetMeanArea(	Image *img, 			 // Image to analyze (where to search)
 			int x1, int y1, int x2, int y2); // Rectangular area of img to use
