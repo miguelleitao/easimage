@@ -1,3 +1,10 @@
+/**
+ * @file 	viewer.c
+ *
+ * @author	Miguel Leitao
+ *
+ */
+
 #include <malloc.h>
 
 #include <SDL/SDL.h>
