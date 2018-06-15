@@ -1,3 +1,11 @@
+/**
+ * @file 	util.c
+ *
+ * @author	Miguel Leitao
+ *
+ *
+ */
+
 #include <SDL/SDL.h>
 
 // initialise
