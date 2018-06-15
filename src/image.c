@@ -288,11 +288,28 @@ int imgGetSymmetryError( Image *img,
 	return error;
 }
 
-void imgPatternDifference( Image *img, Image *pat, Image *res,
+
+//! Searches image or a pattern 
+/*!
+ *  Searches full specified area from Image @p img for ocurrences of pattern Image @p pat.
+ *  Produces resulting Image @p res with calculated differences.
+ *
+ *  @param img Image to be searched.
+ *  @param pat Image pattern to search for.
+ *  @param res Previously allocated Image where resulting differences will be stored.
+ *  	       If @p res equals NULL, a new Image is created.
+ *  @param x1 the column number of the top left corner of the image area to be searched
+ *  @param y1 the row number of the top left corner of the image area to be searched
+ *  @param x2 the column number of the bottom right corner of the image area
+ *  @param y2 the row number of the bottom right corner of the image area to be searched
+ *  @return the address of the resulting Image
+ */
+Image *imgPatternDifference( Image *img, Image *pat, Image *res,
 		int x1, int y1, int x2, int y2)
 {
 	// res = abs(img-pat)
 	// res must have size: x2-x1+, y2-y1+1
+	if ( ! res ) res = imgNew(x2-x1,y2-y1,24);
 	int x, y;
 	for( x=x1 ; x<=x2 ; x++ )
 	for( y=y1 ; y<=y2 ; y++ ) {
@@ -311,6 +328,7 @@ void imgPatternDifference( Image *img, Image *pat, Image *res,
 		}
 		imgSetPixel(res, x-x1, y-y1, diff[0], diff[1], diff[2]); 
 	}
+	return res;
 }
 
 float imgGetMeanArea(	Image *img, 			// Image to analyze (where to search)
