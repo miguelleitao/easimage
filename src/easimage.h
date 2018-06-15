@@ -94,7 +94,7 @@ int camPrintCaps(Camera *cam);
  *  @{
  *  Functions to create and process image structures
  */	
-Image * imgNew(unsigned int width, unsigned int height, unsigned short int depth);
+Image * imgNew(unsigned int width, unsigned int height, unsigned short depth);
 Image * imgFromBitmap(const char * filename);
 Image * imgFromPPM(const char * filename);
 int 	imgSavePPM(Image *img, char *fname);
