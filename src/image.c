@@ -1,3 +1,12 @@
+/**
+ * @file 	image.c
+ *
+ * @author	Miguel Leitao
+ *
+ *
+ */
+
+
 #include <stdio.h>
 #include <malloc.h>
 #include <string.h>
