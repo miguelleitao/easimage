@@ -93,7 +93,13 @@ Image * imgNew(unsigned int width, unsigned int height, unsigned short depth)
 	return img;
 }
 
-//! Creates a new image from a BMP image file
+//! Loads an image from a BMP image file
+/*!
+ *  Creates a new Image using the data read from the sp+ecified BMP image file.
+ *  Image can then be released by calling imgFree() function.
+ *  @param filename the name of the BMP image file
+ *  @return The address of the new loaded Image
+ */
 Image *imgFromBitmap(const char * filename)
 {
 	// Load the Bitmap
@@ -125,8 +131,13 @@ Image *imgFromBitmap(const char * filename)
 	// return the new image
 	return img;
 }
-
-//! Creates a new image from a PPM image file
+//! Loads an image from a PPM image file
+/*!
+ *  Creates a new Image using the data read from the sp+ecified PPM image file.
+ *  Image can then be released by calling imgFree() function.
+ *  @param filename the name of the PPM image file
+ *  @return The address of the new loaded Image
+ */
 Image *imgFromPPM(const char * filename)
 {
 	FILE *fimg = fopen(filename, "r");
@@ -202,13 +213,15 @@ Image *imgCopy(Image * img)
 
 //! Crops an image
 /*!
- *  Copies a rectangular a memory block to store an Image structure.
+ *  Copies a rectangular area to a new Image.
  *  Image is created with undefined colors.
  *  Image can then be released by calling imgFree() function.
- *  @param width the number of columns
- *  @param height the number of rows
- *  @param depth the pixel size in bits
- *  @return The address of the new allocated Image
+ *  @param img the sorce Image (Image to crop)
+ *  @param x1 the column number of first vertex
+ *  @param y1 the row number of first vertex
+ *  @param x2 the column number of second vertex
+ *  @param y2 the row number of second vertex
+ *  @return The address of the new cropped Image
  */
 Image *imgCrop(Image *img, int x1, int y1, int x2, int y2)
 {
