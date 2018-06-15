@@ -21,7 +21,16 @@
  *  @{
  */
 
-//! Allocates a new image
+//! Creates a new image
+/*!
+ *  Allocates a memory block to store and Image structure.
+ *  Image is created with undefined colors.
+ *  Image can then be released by calling imgFree() function.
+ *  @param width the number of columns
+ *  @param height the number of rows
+ *  @param depth the pixel size in bits
+ *  @return a pointer to the new allocated Image
+ */
 Image * imgNew(unsigned int width, unsigned int height, unsigned short depth)
 {
 	// Allocate for the image container
