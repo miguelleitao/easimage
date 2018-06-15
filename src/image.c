@@ -25,7 +25,7 @@
 /*!
  *  Allocates a memory block to store an Image structure.
  *  Image is created with undefined colors.
- *  Image can then be released by calling imgFree() function.
+ *  Image can then be released by calling imgDestroy() function.
  *  @param width the number of columns
  *  @param height the number of rows
  *  @param depth the pixel size in bits
@@ -95,8 +95,8 @@ Image * imgNew(unsigned int width, unsigned int height, unsigned short depth)
 
 //! Loads an image from a BMP image file
 /*!
- *  Creates a new Image using the data read from the sp+ecified BMP image file.
- *  Image can then be released by calling imgFree() function.
+ *  Creates a new Image using the data read from the specified BMP image file.
+ *  Image can then be released by calling imgDestroy() function.
  *  @param filename the name of the BMP image file
  *  @return The address of the new loaded Image
  */
@@ -133,8 +133,8 @@ Image *imgFromBitmap(const char * filename)
 }
 //! Loads an image from a PPM image file
 /*!
- *  Creates a new Image using the data read from the sp+ecified PPM image file.
- *  Image can then be released by calling imgFree() function.
+ *  Creates a new Image using the data read from the specified PPM image file.
+ *  Image can then be released by calling imgDestroy() function.
  *  @param filename the name of the PPM image file
  *  @return The address of the new loaded Image
  */
@@ -197,6 +197,15 @@ void imgScale(Image *img, unsigned int sfactor)
 	}
 }
 
+//! Creates a copy of an Image
+/*!
+ *  Creates a new image storing a copy of an original Image.
+ *  Created Image can then be released by calling the imgDestroy() function.
+ *
+ *  @param img the source Image (Image to crop)
+ *  @return The address of the new copied Image
+ */
+
 Image *imgCopy(Image * img)
 {
 	// Create a new empty image
@@ -215,8 +224,8 @@ Image *imgCopy(Image * img)
 /*!
  *  Copies a rectangular area to a new Image.
  *  Image is created with undefined colors.
- *  Image can then be released by calling imgFree() function.
- *  @param img the sorce Image (Image to crop)
+ *  Image can then be released by calling the imgDestroy() function.
+ *  @param img the source Image (Image to crop)
  *  @param x1 the column number of first vertex
  *  @param y1 the row number of first vertex
  *  @param x2 the column number of second vertex
@@ -243,7 +252,17 @@ Image *imgCrop(Image *img, int x1, int y1, int x2, int y2)
 
 }
 
-
+//! Evaluates simmetry erro
+/*!
+ *  Evaluates the simmetry error of an image's square area.
+ *  Computed error will be zero if the squre area is fully simmetric along the X and Y axis.
+ *  
+ *  @param img Image to be processed
+ *  @param x the column number of the image area to be evaluated
+ *  @param y the row number of the image area to be evaluated
+ *  @param radius the half side dimension of the square area
+ *  @return the total simmetry erro
+ */
 int imgGetSymmetryError( Image *img, 
 			int x, int y, int radius ) // Square area of img to use 
 {
