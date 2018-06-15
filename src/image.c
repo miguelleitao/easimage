@@ -594,3 +594,6 @@ int imgSavePAM(Image *img, char *fname) {
     return 0;
 }
 
+/**
+ *  @}
+ */
