@@ -23,13 +23,13 @@
 
 //! Creates a new image
 /*!
- *  Allocates a memory block to store and Image structure.
+ *  Allocates a memory block to store an Image structure.
  *  Image is created with undefined colors.
  *  Image can then be released by calling imgFree() function.
  *  @param width the number of columns
  *  @param height the number of rows
  *  @param depth the pixel size in bits
- *  @return a pointer to the new allocated Image
+ *  @return The address of the new allocated Image
  */
 Image * imgNew(unsigned int width, unsigned int height, unsigned short depth)
 {
@@ -200,6 +200,16 @@ Image *imgCopy(Image * img)
 	return copy;	
 }
 
+//! Crops an image
+/*!
+ *  Copies a rectangular a memory block to store an Image structure.
+ *  Image is created with undefined colors.
+ *  Image can then be released by calling imgFree() function.
+ *  @param width the number of columns
+ *  @param height the number of rows
+ *  @param depth the pixel size in bits
+ *  @return The address of the new allocated Image
+ */
 Image *imgCrop(Image *img, int x1, int y1, int x2, int y2)
 {
 	unsigned width = x2-x1+1;
