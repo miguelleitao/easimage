@@ -4,10 +4,9 @@ TARGET=easimage
 
 all: ${TARGET}
 
-${TARGET}: src/libeasimage.so
-
-src/libeasimage.so:
+${TARGET}: 
 	$(MAKE) -C src
+
 
 ${TARGET}.md: README.md
 	echo "\mainpage easimage" >$@

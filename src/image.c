@@ -331,6 +331,17 @@ Image *imgPatternDifference( Image *img, Image *pat, Image *res,
 	return res;
 }
 
+//! Evaluates the pixel component mean value.
+/*!
+ *  Evaluates the mean value from all (color) components and all pixel within the specified area of the Image @p img.
+ *
+ *  @param img Image to be processed.
+ *  @param x1 the column number of the top left corner of the image area to be processed
+ *  @param y1 the row number of the top left corner of the image area to be processed
+ *  @param x2 the column number of the bottom right corner of the image area to be processed
+ *  @param y2 the row number of the bottom right corner of the image area to be processed
+ *  @return the calculated mean value as a float
+ */
 float imgGetMeanArea(	Image *img, 			// Image to analyze (where to search)
 			int x1, int y1, int x2, int y2) // Rectangular area of img to use
 			
@@ -347,6 +358,13 @@ float imgGetMeanArea(	Image *img, 			// Image to analyze (where to search)
 	return (float)total / (float)( (x2-x1+1) * (y2-y1+1) * comp );
 }
 
+//! Evaluates the pixel component mean value.
+/*!
+ *  Evaluates the mean value from all (color) components and all pixels within the Image @p img.
+ *
+ *  @param img Image to be processed.
+ *  @return the calculated mean value as a float
+ */
 float imgGetMean(Image *img) {
 	return imgGetMeanArea(img, 0, 0, img->width, img->height);
 }
