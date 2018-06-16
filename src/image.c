@@ -252,7 +252,7 @@ Image *imgCrop(Image *img, int x1, int y1, int x2, int y2)
 
 }
 
-//! Evaluates simmetry erro
+//! Evaluates simmetry error at location
 /*!
  *  Evaluates the simmetry error of an image's square area.
  *  Computed error will be zero if the squre area is fully simmetric along the X and Y axis.
@@ -261,7 +261,7 @@ Image *imgCrop(Image *img, int x1, int y1, int x2, int y2)
  *  @param x the column number of the image area to be evaluated
  *  @param y the row number of the image area to be evaluated
  *  @param radius the half side dimension of the square area
- *  @return the total simmetry erro
+ *  @return The total simmetry error
  */
 int imgGetSymmetryError( Image *img, 
 			int x, int y, int radius ) // Square area of img to use 
@@ -288,8 +288,7 @@ int imgGetSymmetryError( Image *img,
 	return error;
 }
 
-
-//! Searches image or a pattern 
+//! Searches image for a pattern 
 /*!
  *  Searches full specified area from Image @p img for ocurrences of pattern Image @p pat.
  *  Produces resulting Image @p res with calculated differences.
@@ -344,7 +343,6 @@ Image *imgPatternDifference( Image *img, Image *pat, Image *res,
  */
 float imgGetMeanArea(	Image *img, 			// Image to analyze (where to search)
 			int x1, int y1, int x2, int y2) // Rectangular area of img to use
-			
 {
 	int x, y, p;
 	int total = 0;
@@ -369,6 +367,21 @@ float imgGetMean(Image *img) {
 	return imgGetMeanArea(img, 0, 0, img->width, img->height);
 }
 
+//! Searches image area for a pattern
+/*!
+ *  Searches the full specified area from Image @p img for ocurrences of pattern Image @p pat.
+ *  Selectes and informs the location of the best matching pattern.
+ *
+ *  @param img Image to be searched.
+ *  @param pat Image pattern to search for.
+ *  @param x1 the column number of the top left corner of the image area to be searched
+ *  @param y1 the row number of the top left corner of the image area to be searched
+ *  @param x2 the column number of the bottom right corner of the image area
+ *  @param y2 the row number of the bottom right corner of the image area to be searched
+ *  @param best_x location to store the column number of the selected location.
+ *  @param best_y location to store the row number of the selected location.
+ *  @return The matching error for the selected location.
+ */
 int imgFindPatternArea(	Image *img, 			// Image to analyze (where to search)
 			Image *pat, 			// Pattern Image to find (what to search)
 			int x1, int y1, int x2, int y2, // Rectangular area of img to use
@@ -414,6 +427,17 @@ int imgFindPatternArea(	Image *img, 			// Image to analyze (where to search)
 	return best_val;
 }
 
+//! Searches image for a pattern
+/*!
+ *  Searches the full specified area from Image @p img for ocurrences of pattern Image @p pat.
+ *  Selectes and informs the location of the best matching pattern.
+ *
+ *  @param img Image to be searched.
+ *  @param pat Image pattern to search for.
+ *  @param best_x location to store the column number of the selected location.
+ *  @param best_y location to store the row number of the selected location.
+ *  @return The matching error for the selected location.
+ */
 int imgFindPattern(Image *img, Image *pat, int *best_x, int *best_y)
 {
 	return imgFindPatternArea(img, pat, 
