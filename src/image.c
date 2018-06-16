@@ -573,7 +573,13 @@ void imgSetPixelRGBA(Image * img, unsigned int x, unsigned int y,
     }
 }
 
-// returns a pointer to the rgb tuple
+//! Gets pixel data
+/*! Returns a pointer to the pixel data
+ *  @param img Image structure location
+ *  @param x pixel column number
+ *  @param y pixel row number
+ *  @return A pointer to the pixel data array
+ */
 unsigned char *imgGetPixel(Image * img, unsigned int x, unsigned int y)
 {
 	uint32_t offset = img->depth/8 * (x + (y * img->width));
@@ -585,6 +591,20 @@ int imgGetPixelDifference(unsigned char *p1, unsigned char *p2)
 	return abs(p1[0]-p2[0]) + abs(p1[1]-p2[1]) + abs(p1[2]-p2[2]);
 }
 
+//! Image convolution
+/*! Performs a convolution beteween Image @p img1 and Image @p img2.
+ *  Convolution result is stored in preallocated Image @p res. 
+ *  Image @p res should have dimensions and depth matching Image @p img1.
+ *  If @p res equals NULL, a new Image is allocated.
+ *  Implementation is optimized for @p img1 larger than @p img2.
+ *  This is usually adequated for processing Image @p img1 through kernel Image @p img2.
+ *  Image @p img2 should have odd dimensions.
+ *  Image @p img2 must use a pixel depth of 8 bits or the same pixel depth as Image @p img1.
+ *  @param img Image structur location
+ *  @param x pixel column number
+ *  @param y pixel row number
+ *  @return The convolution resulting Image.
+ */
 Image * imgConvolution(Image *img1, Image *img2, Image *res)
 {
 	unsigned long fscale = 255 * img2->width * img2->height;
@@ -607,7 +627,10 @@ Image * imgConvolution(Image *img1, Image *img2, Image *res)
 		    unsigned char *pix1 = imgGetPixel(img1,xx,yy);
 		    unsigned char *pix2 = imgGetPixel(img2,x2,y2);
 	    	    for( c=0 ; c<img1->depth/8 ; c++ ) 
-		    	acc[c] += pix1[c] * pix2[c];
+			if ( img2->depth <= 8 )
+			    acc[c] += pix1[c] * pix2[0];
+		    	else
+		    	    acc[c] += pix1[c] * pix2[c];
 	    	}
 	    }
 	    unsigned char rpix[img1->depth/8];
@@ -617,7 +640,14 @@ Image * imgConvolution(Image *img1, Image *img2, Image *res)
 	}
 	return res;
 }
-// Destroys the image
+
+Image *imgCreateKernel()
+{
+    Image *k = imgNew(3,3,8);
+    return k;
+}
+
+//! Destroys the image
 void imgDestroy(Image * img)
 {
 	if ( img==NULL ) {
