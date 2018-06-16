@@ -325,7 +325,7 @@ Image *imgPatternDifference( Image *img, Image *pat, Image *res,
 			diff[1] += abs(pix[1]-(int)(pat_pix[1]));	
 			diff[2] += abs(pix[2]-(int)(pat_pix[2]));
 		}
-		imgSetPixel(res, x-x1, y-y1, diff[0], diff[1], diff[2]); 
+		imgSetPixelRGB(res, x-x1, y-y1, diff[0], diff[1], diff[2]); 
 	}
 	return res;
 }
@@ -507,20 +507,13 @@ unsigned int imgGetHeight(Image * img)
 }
 
 
-void imgSetPixel(Image * img, unsigned int x, unsigned int y, unsigned char r, unsigned char g, unsigned char b)
+void imgSetPixel(Image * img, unsigned int x, unsigned int y, unsigned char *pdata)
 {
     // calculate the offset into the image array
     uint32_t offset = img->depth/8 * (x + (y * img->width));
-    if ( img->depth>=24 ) {
-	// set the rgb value
-	img->data[offset + 2] = b;
-	img->data[offset + 1] = g;
-	img->data[offset + 0] = r;
-    }
-    else {	// 8 bit/pixel
-	uint32_t offset = x + (y * img->width);
-	img->data[offset] = (r+g+b)/3;
-    }
+    register int c;
+    for( c=0 ; c<img->depth/8 ; c++ )
+	img->data[offset+c] = pdata[c];
 }
 
 
@@ -592,6 +585,38 @@ int imgGetPixelDifference(unsigned char *p1, unsigned char *p2)
 	return abs(p1[0]-p2[0]) + abs(p1[1]-p2[1]) + abs(p1[2]-p2[2]);
 }
 
+Image * imgConvolution(Image *img1, Image *img2, Image *res)
+{
+	unsigned long fscale = 255 * img2->width * img2->height;
+	if ( ! res ) res = imgNew(img1->width,img1->height,img1->depth);
+	int x1, y1, x2, y2;
+	const int xc = img2->width / 2;
+	const int yc = img2->height / 2;
+	for( x1=0 ; x1<img1->width ; x1++ )
+	for( y1=0 ; y1<img1->height ; y1++ ) {
+	    unsigned long acc[img1->depth/8];
+	    register int c;
+	    for( c=0 ; c<img1->depth/8 ; c++ )
+		acc[c] = 0L;
+	    for( x2=0 ; x2<img2->width ; x2++ ) {
+		register int xx = x1+x2-xc;
+		if ( xx<0 || xx>=img1->width ) continue;
+	    	for( y2=0 ; y2<img2->height ; y2++ ) {
+		    register int yy = y1+y2-yc;
+		    if ( yy<0 || yy>=img1->height ) continue;
+		    unsigned char *pix1 = imgGetPixel(img1,xx,yy);
+		    unsigned char *pix2 = imgGetPixel(img2,x2,y2);
+	    	    for( c=0 ; c<img1->depth/8 ; c++ ) 
+		    	acc[c] += pix1[c] * pix2[c];
+	    	}
+	    }
+	    unsigned char rpix[img1->depth/8];
+	    for( c=0 ; c<img1->depth/8 ; c++ )
+                rpix[c] = acc[c]/fscale;
+	    imgSetPixel(res,x1,y1,rpix);
+	}
+	return res;
+}
 // Destroys the image
 void imgDestroy(Image * img)
 {
@@ -631,7 +656,7 @@ int imgSavePPM(Image *img, char *fname) {
 	fprintf(stderr, "SavePPM is only avilable for 24 bit depth images\n");
 	return 1;
     }
-    printf("escrevendo frame com %d bytes/pix, para '%s'\n",img->depth/8,fname);
+    printf("writting frame with %d bytes/pix, into '%s'\n",img->depth/8,fname);
     FILE *outfd = fopen(fname, "w");
     if ( outfd==NULL ) {
 	perror(strcat("Opening file ",fname));
@@ -653,13 +678,7 @@ int imgSavePPM(Image *img, char *fname) {
 }
 
 int imgSavePAM(Image *img, char *fname) {
-/*
-    if ( img->depth != 24 ) {
-        fprintf(stderr, "SavePAM is only avilable for 24 bit depth images\n");
-        return 1;
-    }
-*/
-    printf("escrevendo frame com %d bytes/pix, para '%s'\n",img->depth/8,fname);
+    printf("writting frame with %d bytes/pix, into '%s'\n",img->depth/8,fname);
     FILE *outfd = fopen(fname, "w");
     if ( outfd==NULL ) {
         perror(strcat("Opening file ",fname));

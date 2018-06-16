@@ -117,7 +117,7 @@ float 	imgGetMean(Image *img);
 
 unsigned int imgGetWidth(Image * img);
 unsigned int imgGetHeight(Image * img);
-void imgSetPixel(Image * img, unsigned int x, unsigned int y, unsigned char r, unsigned char g, unsigned char b);
+void imgSetPixel(Image * img, unsigned int x, unsigned int y, unsigned char *pdata);
 void imgSetPixelRGB(Image * img, unsigned int x, unsigned int y, unsigned char r, unsigned char g, unsigned char b);
 void imgSetPixelRGBA(Image * img, unsigned int x, unsigned int y, unsigned char r, unsigned char g, unsigned char b, unsigned char a);
 
