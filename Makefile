@@ -7,10 +7,12 @@ all: ${TARGET}
 ${TARGET}: 
 	$(MAKE) -C src
 
-
 ${TARGET}.md: README.md
 	echo "\mainpage easimage" >$@
 	cat $^ |grep -v \^.! |grep -v \^\#\ ${TARGET} >> $@
+
+examples:
+	$(MAKE) -C examples
 
 clean:
 	$(MAKE) -C src clean

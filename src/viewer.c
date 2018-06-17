@@ -25,7 +25,6 @@ Viewer * viewOpen(unsigned int width, unsigned int height, const char * title)
 	view->screen = SDL_SetVideoMode(width, height, 24, SDL_SWSURFACE);
 	if(view == NULL){
 		fprintf(stderr, "Failed to open screen surface\n");
-		free(view);
 		return NULL;
 	}
 
@@ -50,6 +49,7 @@ void viewClose(Viewer * view)
 // take an image and display it on the view
 void viewDisplayImage(Viewer * view, Image * img)
 {
+	printf("display image\n");
 	Uint32 r_mask = 0x000000ff;
 	Uint32 g_mask = 0x0000ff00;
 	Uint32 b_mask = 0x00ff0000;
@@ -70,12 +70,19 @@ void viewDisplayImage(Viewer * view, Image * img)
 	}
 	if ( img->format == RGBA32 ) 
 		a_mask = 0xff000000;
+	if ( img->format == GREY ) {
+		r_mask = g_mask = b_mask = 0x0000ff;
+		a_mask = 0x0;
+	}
         if ( view==NULL ) {
+		printf("Creating new viewer\n");
                 view = viewOpen(img->width,img->height,img->name);
         }
 
+
 	SDL_Surface *surf;
 	// Fill the SDL_Surface container
+printf("creating rgb sdl surface\n");
 	surf = SDL_CreateRGBSurfaceFrom(
 				img->data,
 				img->width,
@@ -87,18 +94,26 @@ void viewDisplayImage(Viewer * view, Image * img)
 				b_mask,
 				a_mask
 	);
-
+printf("criou\n");
 
 	// check the surface was initialised
 	if (surf == NULL) {
 		perror("Display image");
 		return;
 	}
+
+	printf("blit surf\n");
 	// Blit the image to the window surface
-	SDL_BlitSurface(surf, NULL, view->screen, NULL);
-	
+	SDL_Rect DestR;
+	DestR.x = img->width;
+	DestR.y = img->height;
+	SDL_BlitSurface(surf, NULL, view->screen, &DestR);
+
+	printf("flip surf\n");
 	// Flip the screen to display the changes
 	SDL_Flip(view->screen);
+
+	printf("done\n");
 	free(surf);
 	
 }

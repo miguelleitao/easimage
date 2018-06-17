@@ -24,6 +24,7 @@
 #define RGB32 	V4L2_PIX_FMT_RGB32
 #define RGBA32  V4L2_PIX_FMT_RGB32
 #define RGB48	V4L2_PIX_FMT_RGB48
+#define GREY	V4L2_PIX_FMT_GREY
 /** @}*/
 
 #define min(a,b) ( a<b ? a : b )
@@ -102,6 +103,8 @@ int     imgSavePAM(Image *img, char *fname);
 Image * imgCopy(Image * img);
 void 	imgScale(Image *img, unsigned int sfactor);
 Image * imgCrop(Image *img, int x1, int y1, int x2, int y2);
+Image * imgCreateGaussian(int dim, float sig);
+Image * imgConvolution(Image *img1, Image *img2, Image *res);
 int	imgFindPattern(Image *img, Image *pattern, int *x, int *y);
 int	imgFindPatternArea(Image *img, Image *pattern, int x1, int y1, int x2, int y2, int *x, int *y);
 void 	imgDestroy(Image * img);
@@ -111,6 +114,9 @@ void 	imgMakeSymmetric(Image *img);
 int 	imgGetSymmetryError(Image *img, int x, int y, int radius);
 Image * imgPatternDifference( Image *img, Image *pat, Image *res, int x1, int y1, int x2, int y2);
 int 	imgGetPixelDifference(unsigned char *p1, unsigned char *p2);
+
+int     imgGetSumArea( Image *img,                      // Image to analyze 
+                        int x1, int y1, int x2, int y2);
 float 	imgGetMeanArea(	Image *img, 			 // Image to analyze (where to search)
 			int x1, int y1, int x2, int y2); // Rectangular area of img to use
 float 	imgGetMean(Image *img);

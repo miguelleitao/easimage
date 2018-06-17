@@ -14,6 +14,7 @@
 #include <SDL/SDL.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <math.h>
 #include "easimage.h"
 
 /**  
@@ -57,6 +58,8 @@ Image * imgNew(unsigned int width, unsigned int height, unsigned short depth)
 		free(img);
 		return NULL;
 	}
+
+	if ( depth==8 ) img->format = V4L2_PIX_FMT_GREY;
 
 	// make certain it is aligned to 8 bytes
 	unsigned int remainder = ((size_t)img->mem_ptr) % 8;
@@ -330,6 +333,33 @@ Image *imgPatternDifference( Image *img, Image *pat, Image *res,
 	return res;
 }
 
+
+//! Evaluates the addition of pixel components.
+/*!
+ *  Evaluates the total addition of all (color) components' values from all pixels within the specified area of the Image @p img.
+ *
+ *  @param img Image to be processed.
+ *  @param x1 the column number of the top left corner of the image area to be processed
+ *  @param y1 the row number of the top left corner of the image area to be processed
+ *  @param x2 the column number of the bottom right corner of the image area to be processed
+ *  @param y2 the row number of the bottom right corner of the image area to be processed
+ *  @return The calculated total value as an int 
+ */
+int imgGetSumArea(   Image *img,                     // Image to analyze (where to search)
+                        int x1, int y1, int x2, int y2) // Rectangular area of img to use
+{
+        int x, y, p;
+        int total = 0;
+        int comp = img->depth/8;
+        for( x=x1 ; x<=x2 ; x++ )
+        for( y=y1 ; y<=y2 ; y++ ) {
+                unsigned char * pix = imgGetPixel(img,x,y);
+                for( p=0 ; p<comp ; p++ )
+                        total += pix[p];
+        }
+        return total;
+}
+
 //! Evaluates the pixel component mean value.
 /*!
  *  Evaluates the mean value from all (color) components and all pixel within the specified area of the Image @p img.
@@ -344,15 +374,8 @@ Image *imgPatternDifference( Image *img, Image *pat, Image *res,
 float imgGetMeanArea(	Image *img, 			// Image to analyze (where to search)
 			int x1, int y1, int x2, int y2) // Rectangular area of img to use
 {
-	int x, y, p;
-	int total = 0;
+	int total = imgGetSumArea(img,x1,y1,x2,y2);
 	int comp = img->depth/8;
-	for( x=x1 ; x<=x2 ; x++ )
-	for( y=y1 ; y<=y2 ; y++ ) {
-		unsigned char * pix = imgGetPixel(img,x,y);
-		for( p=0 ; p<comp ; p++ )
-			total += pix[p];
-	}
 	return (float)total / (float)( (x2-x1+1) * (y2-y1+1) * comp );
 }
 
@@ -641,9 +664,27 @@ Image * imgConvolution(Image *img1, Image *img2, Image *res)
 	return res;
 }
 
-Image *imgCreateKernel()
+Image *imgCreateGaussian(int dim, float sig)
 {
-    Image *k = imgNew(3,3,8);
+    //const float sig = 40.;
+    if ( sig<=0.f ) sig = (float)dim/5.;
+    Image *k = imgNew(dim,dim,24);
+    k->format = RGB24;
+    int x,y;
+    const int dc = dim/2;
+    for( x=0 ; x<=dc ; x++ )
+    for( y=0 ; y<=dc ; y++ ) {
+	float xf = x-dc;
+	float yf = y-dc;
+	float kf = exp(-(xf*xf+yf*yf)/(2.*sig*sig));
+	unsigned char kv = kf*255.;
+	printf("%d %d: %u\n",x,y,kv);
+	unsigned char kvv[3] = { kv, kv, kv };
+	imgSetPixel(k,x,y,kvv);
+	imgSetPixel(k,x,dim-y,kvv);
+	imgSetPixel(k,dim-x,y,kvv);
+	imgSetPixel(k,dim-x,dim-y,kvv);
+    }
     return k;
 }
 
@@ -749,7 +790,13 @@ int imgSavePAM(Image *img, char *fname) {
 		img_ptr += 4;
 	    }
 	    break;
+	case GREY:
+	    for( i=0 ; i<image_len ; i++ ) {
+		fputc(img_ptr[i], outfd);
+	    }
+	    break;
     }		
+
     fclose(outfd);
     return 0;
 }
