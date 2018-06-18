@@ -1,6 +1,7 @@
 
 CFLAGS=-I../src -g -Wall -Wextra
-LDFLAGS=-L ../src -lm -leasimage 
+LDFLAGS=-L ../src 
+LDLIBS=-lm -leasimage
 EXAMPLES=blur
 
 all: ${EXAMPLES}
