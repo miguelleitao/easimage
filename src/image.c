@@ -668,8 +668,9 @@ Image *imgCreateGaussian(int dim, float sig)
 {
     //const float sig = 40.;
     if ( sig<=0.f ) sig = (float)dim/5.;
-    Image *k = imgNew(dim,dim,24);
-    k->format = RGB24;
+    Image *k = imgNew(dim,dim,8);
+    //k->format = RGB24;
+    //k->format = GREY;
     int x,y;
     const int dc = dim/2;
     for( x=0 ; x<=dc ; x++ )
@@ -679,7 +680,8 @@ Image *imgCreateGaussian(int dim, float sig)
 	float kf = exp(-(xf*xf+yf*yf)/(2.*sig*sig));
 	unsigned char kv = kf*255.;
 	printf("%d %d: %u\n",x,y,kv);
-	unsigned char kvv[3] = { kv, kv, kv };
+	//unsigned char kvv[3] = { kv, kv, kv };
+	unsigned char kvv[3] = { kv };
 	imgSetPixel(k,x,y,kvv);
 	imgSetPixel(k,x,dim-y,kvv);
 	imgSetPixel(k,dim-x,y,kvv);

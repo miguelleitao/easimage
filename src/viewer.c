@@ -46,10 +46,15 @@ void viewClose(Viewer * view)
 }
 
 
-// take an image and display it on the view
+//! Displays an image on a Window
+/*!
+ *  Viewer can be previouly created by calling viewOpen().
+ *  If @view equals NULL, a new Viewer is created.
+ *  @param view a pointer to a previously created View or NULL
+ *  @param img a pointer to the Image to display.
+ */
 void viewDisplayImage(Viewer * view, Image * img)
 {
-	printf("display image\n");
 	Uint32 r_mask = 0x000000ff;
 	Uint32 g_mask = 0x0000ff00;
 	Uint32 b_mask = 0x00ff0000;
@@ -63,7 +68,6 @@ void viewDisplayImage(Viewer * view, Image * img)
 		fprintf(stderr,"Display of YUYV image is not implemented\n");
 		return;
 	}
-
 	if ( img->format == BGR24 )  {
 		r_mask = 0xff0000;
 		b_mask = 0x0000ff;
@@ -75,14 +79,12 @@ void viewDisplayImage(Viewer * view, Image * img)
 		a_mask = 0x0;
 	}
         if ( view==NULL ) {
-		printf("Creating new viewer\n");
+		//printf("Creating new viewer\n");
                 view = viewOpen(img->width,img->height,img->name);
         }
 
-
 	SDL_Surface *surf;
 	// Fill the SDL_Surface container
-printf("creating rgb sdl surface\n");
 	surf = SDL_CreateRGBSurfaceFrom(
 				img->data,
 				img->width,
@@ -94,7 +96,6 @@ printf("creating rgb sdl surface\n");
 				b_mask,
 				a_mask
 	);
-printf("criou\n");
 
 	// check the surface was initialised
 	if (surf == NULL) {
@@ -102,18 +103,17 @@ printf("criou\n");
 		return;
 	}
 
-	printf("blit surf\n");
-	// Blit the image to the window surface
+	// Define image position
 	SDL_Rect DestR;
-	DestR.x = img->width;
-	DestR.y = img->height;
+	DestR.x = 0; 
+	DestR.y = 0; 
+
+	// Blit the image to the window surface
 	SDL_BlitSurface(surf, NULL, view->screen, &DestR);
 
-	printf("flip surf\n");
 	// Flip the screen to display the changes
 	SDL_Flip(view->screen);
 
-	printf("done\n");
 	free(surf);
 	
 }
