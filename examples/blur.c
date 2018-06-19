@@ -19,6 +19,7 @@ printf("abriu viewer\n");
 printf("getting key\n");
 	getchar();
 printf("got key\n");
+viewClose(vKern);
 imgDestroy(iKern);	
 	quit_easimage();
 printf("quit\n");

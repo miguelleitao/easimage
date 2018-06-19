@@ -27,6 +27,7 @@ int main() {
 
     //Free the loaded image
     SDL_FreeSurface( hello );
+    SDL_FreeSurface( screen );
 
     //Quit SDL
     SDL_Quit();

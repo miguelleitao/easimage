@@ -8,3 +8,6 @@ all: ${EXAMPLES}
 
 run: blur
 	LD_LIBRARY_PATH=../src ./blur
+
+memtest: blur
+	LD_LIBRARY_PATH=../src valgrind --leak-check=full -v ./blur

@@ -670,7 +670,7 @@ Image *imgCreateGaussian(int dim, float sig)
     if ( sig<=0.f ) sig = (float)dim/5.;
     Image *k = imgNew(dim,dim,8);
     //k->format = RGB24;
-    //k->format = GREY;
+    k->format = GREY;
     int x,y;
     const int dc = dim/2;
     for( x=0 ; x<=dc ; x++ )
@@ -679,13 +679,13 @@ Image *imgCreateGaussian(int dim, float sig)
 	float yf = y-dc;
 	float kf = exp(-(xf*xf+yf*yf)/(2.*sig*sig));
 	unsigned char kv = kf*255.;
-	printf("%d %d: %u\n",x,y,kv);
+	//printf("%d %d: %u\n",x,y,kv);
 	//unsigned char kvv[3] = { kv, kv, kv };
 	unsigned char kvv[3] = { kv };
 	imgSetPixel(k,x,y,kvv);
-	imgSetPixel(k,x,dim-y,kvv);
-	imgSetPixel(k,dim-x,y,kvv);
-	imgSetPixel(k,dim-x,dim-y,kvv);
+	imgSetPixel(k,x,dim-y-1,kvv);
+	imgSetPixel(k,dim-x-1,y,kvv);
+	imgSetPixel(k,dim-x-1,dim-y-1,kvv);
     }
     return k;
 }
@@ -708,7 +708,7 @@ void imgDestroy(Image * img)
 
 
 int imgSaveRAW(Image *img, char *fname) {
-    printf("escrevendo frame com %d bytes, para '%s'\n",img->depth/8,fname);
+    printf("writing frame with %d bytes, into file '%s'\n",img->depth/8,fname);
     int outfd = open(fname, O_WRONLY);
     if ( outfd==-1 ) {
 	perror(strcat("Opening file ",fname));
@@ -772,7 +772,7 @@ int imgSavePAM(Image *img, char *fname) {
 		fputc(img_ptr[2], outfd);
 		fputc(img_ptr[1], outfd);
 		fputc(img_ptr[0], outfd);
-		img_ptr +=3;
+		img_ptr += 3;
 	    }
 	    break;
 	case RGB24:
@@ -780,7 +780,7 @@ int imgSavePAM(Image *img, char *fname) {
 		fputc(img_ptr[0], outfd);
 		fputc(img_ptr[1], outfd);
 		fputc(img_ptr[2], outfd);
-		img_ptr +=3;
+		img_ptr += 3;
 	    }
 	    break;
 	case RGBA32:
@@ -798,7 +798,6 @@ int imgSavePAM(Image *img, char *fname) {
 	    }
 	    break;
     }		
-
     fclose(outfd);
     return 0;
 }

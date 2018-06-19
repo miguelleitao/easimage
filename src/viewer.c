@@ -20,17 +20,17 @@ Viewer * viewOpen(unsigned int width, unsigned int height, const char * title)
 		fprintf(stderr, "Could not allocate memory for view\n");
 		return NULL;
 	}
-printf("setvideomode\n");	
+	//printf("setvideomode\n");	
 	// initialise the screen surface
 	view->screen = SDL_SetVideoMode(width, height, 32, SDL_SWSURFACE);
 	if (view == NULL) {
 		fprintf(stderr, "Failed to open screen surface\n");
 		return NULL;
 	}
-printf("set caption\n");
+	//printf("set caption\n");
 	// set the window title
-//	SDL_WM_SetCaption(title, 0);
-printf("definiu title\n");	
+	//SDL_WM_SetCaption(title, 0);
+	//printf("definiu title\n");	
 	// return the completed view object
 	return view;
 }
@@ -110,11 +110,13 @@ printf("surface\n");
 	DestR.y = 0; 
 printf("blit\n");
 	// Blit the image to the window surface
-	SDL_BlitSurface(surf, NULL, view->screen, NULL);
+	int res = SDL_BlitSurface(surf, NULL, view->screen, NULL);
+	if ( res ) fprintf(stderr,"Bilt error: %s\n", SDL_GetError());
 printf("flip\n");
 	// Flip the screen to display the changes
 	SDL_Flip(view->screen);
 printf("free\n");
-	free(surf);
+//	free(surf);
+ 	SDL_FreeSurface(surf);
 	
 }
