@@ -55,7 +55,6 @@ void viewClose(Viewer * view)
  */
 void viewDisplayImage(Viewer * view, Image * img)
 {
-printf("display\n");
 	Uint32 r_mask = 0x000000ff;
 	Uint32 g_mask = 0x0000ff00;
 	Uint32 b_mask = 0x00ff0000;
@@ -83,7 +82,6 @@ printf("display\n");
 		printf("Creating new viewer\n");
                 view = viewOpen(img->width,img->height,img->name);
         }
-printf("surface\n");
 	SDL_Surface *surf;
 	// Fill the SDL_Surface container
 	surf = SDL_CreateRGBSurfaceFrom(
@@ -108,15 +106,11 @@ printf("surface\n");
 	SDL_Rect DestR;
 	DestR.x = 0; 
 	DestR.y = 0; 
-printf("blit\n");
 	// Blit the image to the window surface
 	int res = SDL_BlitSurface(surf, NULL, view->screen, NULL);
 	if ( res ) fprintf(stderr,"Bilt error: %s\n", SDL_GetError());
-printf("flip\n");
 	// Flip the screen to display the changes
 	SDL_Flip(view->screen);
-printf("free\n");
-//	free(surf);
  	SDL_FreeSurface(surf);
 	
 }

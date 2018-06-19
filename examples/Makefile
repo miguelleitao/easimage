@@ -11,3 +11,6 @@ run: blur
 
 memtest: blur
 	LD_LIBRARY_PATH=../src valgrind --leak-check=full -v ./blur
+
+sdlimgview: sdlimgview.c
+	gcc -I/usr/include/SDL $^ -o $@ -lSDL
