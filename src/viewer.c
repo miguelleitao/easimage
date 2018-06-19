@@ -15,22 +15,22 @@
 Viewer * viewOpen(unsigned int width, unsigned int height, const char * title)
 {	
 	// set up the view
-	Viewer * view = malloc(sizeof(*view));
-	if (view == NULL){
+	Viewer * view = malloc(sizeof(Viewer));
+	if (view == NULL) {
 		fprintf(stderr, "Could not allocate memory for view\n");
 		return NULL;
 	}
-	
+printf("setvideomode\n");	
 	// initialise the screen surface
-	view->screen = SDL_SetVideoMode(width, height, 24, SDL_SWSURFACE);
-	if(view == NULL){
+	view->screen = SDL_SetVideoMode(width, height, 32, SDL_SWSURFACE);
+	if (view == NULL) {
 		fprintf(stderr, "Failed to open screen surface\n");
 		return NULL;
 	}
-
+printf("set caption\n");
 	// set the window title
-	SDL_WM_SetCaption(title, 0);
-	
+//	SDL_WM_SetCaption(title, 0);
+printf("definiu title\n");	
 	// return the completed view object
 	return view;
 }
@@ -55,6 +55,7 @@ void viewClose(Viewer * view)
  */
 void viewDisplayImage(Viewer * view, Image * img)
 {
+printf("display\n");
 	Uint32 r_mask = 0x000000ff;
 	Uint32 g_mask = 0x0000ff00;
 	Uint32 b_mask = 0x00ff0000;
@@ -79,10 +80,10 @@ void viewDisplayImage(Viewer * view, Image * img)
 		a_mask = 0x0;
 	}
         if ( view==NULL ) {
-		//printf("Creating new viewer\n");
+		printf("Creating new viewer\n");
                 view = viewOpen(img->width,img->height,img->name);
         }
-
+printf("surface\n");
 	SDL_Surface *surf;
 	// Fill the SDL_Surface container
 	surf = SDL_CreateRGBSurfaceFrom(
@@ -107,13 +108,13 @@ void viewDisplayImage(Viewer * view, Image * img)
 	SDL_Rect DestR;
 	DestR.x = 0; 
 	DestR.y = 0; 
-
+printf("blit\n");
 	// Blit the image to the window surface
-	SDL_BlitSurface(surf, NULL, view->screen, &DestR);
-
+	SDL_BlitSurface(surf, NULL, view->screen, NULL);
+printf("flip\n");
 	// Flip the screen to display the changes
 	SDL_Flip(view->screen);
-
+printf("free\n");
 	free(surf);
 	
 }

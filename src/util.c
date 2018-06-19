@@ -11,7 +11,8 @@
 // initialise
 void init_easimage()
 {
-	SDL_Init(SDL_INIT_VIDEO);
+//	SDL_Init(SDL_INIT_VIDEO);
+	SDL_Init(SDL_INIT_EVERYTHING);
 }
 
 

@@ -35,7 +35,7 @@
 Image * imgNew(unsigned int width, unsigned int height, unsigned short depth)
 {
 	// Allocate for the image container
-	Image * img = malloc(sizeof(*img));
+	Image * img = malloc(sizeof(Image));
 	if(img == NULL){
 		fprintf(stderr, "Failed to allocate memory for image container\n");
 		return NULL;
@@ -109,7 +109,7 @@ Image *imgFromBitmap(const char * filename)
 	SDL_Surface * bitmap = SDL_LoadBMP(filename);
 
 	// Allocate for the image container
-	Image * img = malloc(sizeof(*img));
+	Image * img = malloc(sizeof(Image));
 	if(img == NULL){
 		fprintf(stderr, "Failed to allocate memory for image container\n");
 		return NULL;

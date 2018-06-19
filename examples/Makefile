@@ -7,4 +7,4 @@ EXAMPLES=blur
 all: ${EXAMPLES}
 
 run: blur
-	LD_LIBRARY_PATH=../src gdb ./blur
+	LD_LIBRARY_PATH=../src ./blur
