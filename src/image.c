@@ -420,7 +420,7 @@ int imgFindPatternArea(	Image *img, 			// Image to analyze (where to search)
 		int xi, yi;
 		float scalef = 1.0;
 		unsigned char * pat_pix;
-#ifdef AGC_LOCAL
+		#ifdef AGC_LOCAL
 		// Use Local Automaic Gain Control
 		int sum = 0;
                 for( xi=0 ; xi<pat->width ; xi++ )
@@ -429,7 +429,7 @@ int imgFindPatternArea(	Image *img, 			// Image to analyze (where to search)
                         sum += pix[0] + pix[1] + pix[2];
                 }
 		scalef = 384.*pat->width*pat->height/(float)sum;
-#endif
+		#endif
 		for( xi=0 ; xi<pat->width ; xi++ )
                 for( yi=0 ; yi<pat->height ; yi++ ) {
 			pix = imgGetPixel(img, 

@@ -113,7 +113,7 @@ void viewDisplayImage(Viewer * view, Image * img)
 
 	// Flip the screen to display the changes
 	SDL_Flip(view->screen);
-
-	free(surf);
+	SDL_FreeSurface(surf);
+	//free(surf);
 	
 }

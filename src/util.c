@@ -6,12 +6,18 @@
  *
  */
 
+#include <stdio.h>
+#include <stdlib.h>
 #include <SDL/SDL.h>
 
 // initialise
 void init_easimage()
 {
-	SDL_Init(SDL_INIT_VIDEO);
+    int res = SDL_Init(SDL_INIT_VIDEO);
+    if ( res!=0 ) {
+        fprintf(stderr, "Unable to initialize SDL:  %s\n", SDL_GetError());
+        exit(1);
+    }
 }
 
 

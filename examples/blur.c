@@ -6,7 +6,6 @@
 int main() {
 	init_easimage();
 	Image *iKern = imgCreateGaussian(5, 0.);
-	//Image *iKern = imgNew(640,480,24);
 	assert(iKern);
 	printf("kernel created\n");
 	imgSavePAM(iKern,"gauss.pam");
@@ -16,6 +15,9 @@ int main() {
 	printf("Viewer created\n");
 	viewDisplayImage(vKern,iKern);
 	getchar();
-	
+	printf("closing viewer\n");
+	viewClose(vKern);
+	imgDestroy(iKern);
 	quit_easimage();
+
 }
