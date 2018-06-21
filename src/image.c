@@ -49,7 +49,6 @@ Image * imgNew(unsigned int width, unsigned int height, unsigned short depth)
 	img->format = 0;
 	img->name = NULL;
 
-
 	// allocate for image data, depth/8 byte per pixel,
 	// aligned to an 8 byte boundary
 	img->mem_ptr = malloc(img->width * img->height * depth/8 + 8);
@@ -63,35 +62,11 @@ Image * imgNew(unsigned int width, unsigned int height, unsigned short depth)
 
 	// make certain it is aligned to 8 bytes
 	unsigned int remainder = ((size_t)img->mem_ptr) % 8;
-	if(remainder == 0){
+	if(remainder == 0)
 		img->data = img->mem_ptr;
-	} else {
+	else
 		img->data = img->mem_ptr + (8 - remainder);
-	}
 
-	/*
-	// Fill the SDL_Surface container
-	img->sdl_surface = SDL_CreateRGBSurfaceFrom(
-				img->data,
-				img->width,
-				img->height,
-				24, 
-				img->width * 3,
-				0xff0000,
-				0x00ff00,
-				0x0000ff,
-				0x000000
-	);
-
-	// check the surface was initialised
-	if(img->sdl_surface == NULL){
-		fprintf(stderr, "Failed to initialise RGB surface from pixel data\n");
-		SDL_FreeSurface(img->sdl_surface);
-		free(img->mem_ptr);
-		free(img);
-		return NULL;
-	}
-*/
 	// return the image
 	return img;
 }

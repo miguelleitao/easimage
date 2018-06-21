@@ -1,10 +1,16 @@
 # Makefile to build and install easimage
 
+VERSION:=$(shell git describe --tags --long)
+
+-include .config
+
+TARGET=libeasimage.so
+
 all: easimage
 
-easimage: libeasimage.so
+easimage: ${TARGET}
 
-install: libeasimage.so
+install: ${TARGET}
 	cp $< /usr/lib/
 	cp easimage.h /usr/include/
 
@@ -15,5 +21,5 @@ libeasimage.so: camera.o image.o viewer.o util.o
 	gcc -Wall -fPIC -O2 -c -o $@ $< 
 
 clean:
-	rm -f *.o *.so *.a
+	${RM} -- *.o *.so *.a ${TARGET}
 
