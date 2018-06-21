@@ -2,10 +2,10 @@
 
 TARGET=easimage
 
-all: ${TARGET}
-
 ${TARGET}: 
 	$(MAKE) -C src
+
+all: ${TARGET} examples
 
 ${TARGET}.md: README.md
 	echo "\mainpage easimage" >$@
@@ -16,6 +16,7 @@ examples:
 
 clean:
 	$(MAKE) -C src clean
+	$(MAKE) -C examples clean
 
 install: src/libeasimage.so
 	cp $< /usr/lib/
