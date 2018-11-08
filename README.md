@@ -22,7 +22,9 @@ small computing devices.
     sudo make install
 
 ### Documentation
+**easimage** home page is located on: http://miguelleitao.github.io/easimage/
 **easimage** documentation is available from https://codedocs.xyz/miguelleitao/easimage/
+Latest **easimage** source code is maintained at: https://github.com/miguelleitao/easimage/
 
 ### Authors
 **easimage** is maintained by Miguel Leitao. 
