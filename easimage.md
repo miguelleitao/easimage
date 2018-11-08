@@ -20,12 +20,12 @@ small computing devices.
     sudo make install
 
 ### Documentation
-**easimage** home page is located on: http://miguelleitao.github.io/easimage/
-**easimage** documentation is available from https://codedocs.xyz/miguelleitao/easimage/
+**easimage** home page is located on: http://miguelleitao.github.io/easimage/  
+**easimage** documentation is available from https://codedocs.xyz/miguelleitao/easimage/  
 Latest **easimage** source code is maintained at: https://github.com/miguelleitao/easimage/
 
 ### Authors
-**easimage** is maintained by Miguel Leitao. 
+**easimage** is maintained by Miguel Leitao.  
 **easimage** includes parts from the Basic Image Processing library (imgproc) available from:
 https://www.cl.cam.ac.uk/projects/raspberrypi/tutorials/robot/resources/imgproc.zip
 and credited to Olly Andrade, Ed Jones and Alex Lee.
