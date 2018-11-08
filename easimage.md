@@ -23,7 +23,7 @@ small computing devices.
 **easimage** documentation is available from https://codedocs.xyz/miguelleitao/easimage/
 
 ### Authors
-**easimage** is maintained by Miguel Leitao.
+**easimage** is maintained by Miguel Leitao. 
 **easimage** includes parts from the Basic Image Processing library (imgproc) available from:
 https://www.cl.cam.ac.uk/projects/raspberrypi/tutorials/robot/resources/imgproc.zip
 and credited to Olly Andrade, Ed Jones and Alex Lee.
