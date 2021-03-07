@@ -2,6 +2,11 @@
 
 TARGET=easimage
 
+DESTDIR?=/usr
+PREFIX?=/local
+
+-include .config
+
 ${TARGET}: 
 	$(MAKE) -C src
 
@@ -19,7 +24,9 @@ clean:
 	$(MAKE) -C examples clean
 
 install: src/libeasimage.so
-	cp $< /usr/lib/
-	cp src/easimage.h /usr/include/
+	install -d $(DESTDIR)$(PREFIX)/lib/
+	install -m 755 $< $(DESTDIR)$(PREFIX)/lib/
+	install -d $(DESTDIR)$(PREFIX)/include/
+	install -m 644 src/easimage.h $(DESTDIR)$(PREFIX)/include/
 
 

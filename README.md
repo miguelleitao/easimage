@@ -14,6 +14,10 @@ small computing devices.
 * viewer.c: window creation and image display.
 * util.c:   other funcionalities that could not be fit elsewhere.
 
+### Dependencies 
+
+    SDL-devel
+
 ### Building **easimage**
 
     git clone https://github.com/miguelleitao/easimage.git
