@@ -18,8 +18,7 @@ int main() {
 	Viewer *vKern = viewOpen(iKern->width,iKern->height, "Gaussian");
 	assert(vKern);
 	viewDisplayImage(vKern,iKern);
-	//getchar();
-	waitTime(2000);
+	waitTime(8000);
 	viewClose(vKern);
 	imgDestroy(iKern);	
 	quit_easimage();

@@ -1,9 +1,9 @@
 
 #include "SDL.h"
 
-int main() {
+int main(int argc, char **argv) {
     //The images
-    SDL_Surface* hello = NULL;
+    SDL_Surface* image = NULL;
     SDL_Surface* screen = NULL;
 
     //Start SDL
@@ -13,11 +13,10 @@ int main() {
     screen = SDL_SetVideoMode( 257, 257, 24, SDL_SWSURFACE );
 
     //Load image
-    hello = SDL_LoadBMP( "hello.bmp" );
-
+    image = SDL_LoadBMP( "hello.bmp" );
 
     //Apply image to screen
-    SDL_BlitSurface( hello, NULL, screen, NULL );
+    SDL_BlitSurface( image, NULL, screen, NULL );
 
     //Update Screen
     SDL_Flip( screen );
@@ -26,7 +25,7 @@ int main() {
     SDL_Delay( 8000 );
 
     //Free the loaded image
-    SDL_FreeSurface( hello );
+    SDL_FreeSurface( image );
     SDL_FreeSurface( screen );
 
     //Quit SDL
