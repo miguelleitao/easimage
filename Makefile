@@ -2,8 +2,7 @@
 
 TARGET=easimage
 
-DESTDIR?=/usr
-PREFIX?=/local
+PREFIX?=/usr/local
 
 -include .config
 
