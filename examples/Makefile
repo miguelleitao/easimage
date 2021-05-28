@@ -19,5 +19,8 @@ memtest: blur
 sdlimgview: sdlimgview.c
 	gcc -I/usr/include/SDL $^ -o $@ -lSDL
 
+easimgview: easimgview.c
+	gcc -Wall -o $@ $< -l easimage
+
 clean:
 	rm -rf ${EXAMPLES}

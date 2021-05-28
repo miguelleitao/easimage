@@ -247,7 +247,31 @@ static void camEnqueueBuffer(Camera * cam, unsigned int buffer_id)
 
 	return;
 }
-	
+
+char *pixFormatName(unsigned int format, char* name) {
+        static char localName[20];
+	if ( !name ) name = localName;
+	switch( format ) {
+		case BGR24:
+			strcpy(name,"BGR24");
+			break;
+                case RGB24:
+                        strcpy(name,"RGB24");
+                        break;
+                case YUYV:
+                        strcpy(name,"YUYV");
+                        break;
+                case MJPEG:
+                        strcpy(name,"MJPEG");
+                        break;
+                default: 
+                        strcpy(name,"unknown");
+                        break;
+	}
+	return name;
+}
+
+
 void BGR24_to_RGB24(	unsigned char *in, 
 				unsigned char *out,
 				unsigned int nPixels )
@@ -321,7 +345,6 @@ void YUYV_to_BGR24(unsigned char *in, unsigned char *out,
 
 int camGrabImage(Camera * cam, Image *img)
 {
-
 	// dequeue a buffer
 	unsigned int buffer_id = camDequeueBuffer(cam);
 
@@ -344,8 +367,9 @@ int camGrabImage(Camera * cam, Image *img)
 	else {
 	    fprintf(stderr,"camGrabImage() error: %s (%u->%u)\n",
 		"The requested Pixel format conversion is not supported",cam->format,img->format); 
-	    if ( cam->format == YUYV )   printf("cam is YUV\n");
-	    if ( img->format == RGB24 ) printf("img id RGB24\n");
+	    printf("Cam format is %s (%u)\n", pixFormatName(cam->format, NULL), cam->format);
+	    printf("Img format is %s (%u)\n", pixFormatName(img->format, NULL), img->format);
+	    
 	}
 	// requeue the buffer
 	camEnqueueBuffer(cam, buffer_id);
@@ -365,7 +389,7 @@ Image * camGrabNewImage(Camera *cam) {
 }
 
 
-static void camSetFormat(Camera * cam, unsigned int width, unsigned int height, int format)
+static void camSetFormat(Camera *cam, unsigned int width, unsigned int height, int format)
 {
 	printf("Setting device format\n");
 

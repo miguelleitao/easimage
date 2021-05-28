@@ -25,6 +25,7 @@
 #define RGBA32  V4L2_PIX_FMT_RGB32
 #define RGB48	V4L2_PIX_FMT_RGB48
 #define GREY	V4L2_PIX_FMT_GREY
+#define MJPEG   V4L2_PIX_FMT_MJPEG
 /** @}*/
 
 #define min(a,b) ( a<b ? a : b )

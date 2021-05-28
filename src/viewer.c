@@ -68,7 +68,7 @@ void viewDisplayImage(Viewer * view, Image * img)
 		fprintf(stderr,"Display of YUYV image is not implemented\n");
 		return;
 	}
-	if ( img->format == BGR24 )  {
+	if ( img->format == RGB24 )  {
 		r_mask = 0xff0000;
 		b_mask = 0x0000ff;
 	}
