@@ -27,5 +27,7 @@ install: src/libeasimage.so
 	install -m 755 $< $(DESTDIR)$(PREFIX)/lib/
 	install -d $(DESTDIR)$(PREFIX)/include/
 	install -m 644 src/easimage.h $(DESTDIR)$(PREFIX)/include/
+	echo /usr/local/lib >/etc/ld.so.conf.d/usr-local.conf
+	ldconfig
 
 
