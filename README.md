@@ -21,7 +21,7 @@ SDL can be installed on Debian derivatives using:
 
     apt install libsdl-devel_1.2
 
-To install SDL on Fedora  nd derivatives, use:
+To install SDL on Fedora and derivatives, use:
 
     dnf install DSL-devel
 

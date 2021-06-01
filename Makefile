@@ -9,7 +9,7 @@ PREFIX?=/usr/local
 ${TARGET}: 
 	$(MAKE) -C src
 
-all: ${TARGET} examples
+all: ${TARGET} examples ${TARGET}.md
 
 ${TARGET}.md: README.md
 	echo "\mainpage easimage" >$@
