@@ -147,7 +147,7 @@ Image *imgFromPPM(const char * filename)
 	if (img == NULL) {
                 return NULL;
         }
-	img->format = BGR24;
+	img->format = RGB24;
         img->name = strdup(filename);
 	fgetc(fimg);	
 	int i;
@@ -161,6 +161,19 @@ Image *imgFromPPM(const char * filename)
 	}
 	fclose(fimg);
 	return img;
+}
+
+Image *imgFromFile(const char *filename) {
+	char *fType = strrchr(filename, '.');
+	if ( ! fType || strlen(fType)<2 ) {
+		fprintf(stderr, "Unkown image file type: %s\n", filename);
+		return NULL;
+	}
+	fType += 1;
+	if ( ! strcmp(fType, "ppm") )	return imgFromPPM(filename);
+	if ( ! strcmp(fType, "bmp") )   return imgFromBitmap(filename);
+	fprintf(stderr, "Image file type '%s' not supported.\n", fType);
+        return NULL;	
 }
 
 //! Scales an image

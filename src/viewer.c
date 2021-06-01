@@ -29,8 +29,8 @@ Viewer * viewOpen(unsigned int width, unsigned int height, const char * title)
 	}
 	//printf("set caption\n");
 	// set the window title
-	//SDL_WM_SetCaption(title, 0);
-	//printf("definiu title\n");	
+	SDL_WM_SetCaption(title, 0);
+
 	// return the completed view object
 	return view;
 }

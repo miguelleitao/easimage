@@ -96,16 +96,17 @@ int camPrintCaps(Camera *cam);
  *  @{
  *  Functions to create and process image structures
  */	
-Image * imgNew(unsigned int width, unsigned int height, unsigned short depth);
-Image * imgFromBitmap(const char * filename);
-Image * imgFromPPM(const char * filename);
+Image  *imgNew(unsigned int width, unsigned int height, unsigned short depth);
+Image  *imgFromBitmap(const char *filename);
+Image  *imgFromPPM(const char *filename);
+Image  *imgFromFile(const char *filename);
 int 	imgSavePPM(Image *img, char *fname);
 int     imgSavePAM(Image *img, char *fname);
-Image * imgCopy(Image * img);
+Image  *imgCopy(Image * img);
 void 	imgScale(Image *img, unsigned int sfactor);
-Image * imgCrop(Image *img, int x1, int y1, int x2, int y2);
-Image * imgCreateGaussian(int dim, float sig);
-Image * imgConvolution(Image *img1, Image *img2, Image *res);
+Image  *imgCrop(Image *img, int x1, int y1, int x2, int y2);
+Image  *imgCreateGaussian(int dim, float sig);
+Image  *imgConvolution(Image *img1, Image *img2, Image *res);
 int	imgFindPattern(Image *img, Image *pattern, int *x, int *y);
 int	imgFindPatternArea(Image *img, Image *pattern, int x1, int y1, int x2, int y2, int *x, int *y);
 void 	imgDestroy(Image * img);
@@ -113,7 +114,7 @@ void 	imgMakeSymmetricX(Image *img);
 void 	imgMakeSymmetricY(Image *img);
 void 	imgMakeSymmetric(Image *img);
 int 	imgGetSymmetryError(Image *img, int x, int y, int radius);
-Image * imgPatternDifference( Image *img, Image *pat, Image *res, int x1, int y1, int x2, int y2);
+Image  *imgPatternDifference( Image *img, Image *pat, Image *res, int x1, int y1, int x2, int y2);
 int 	imgGetPixelDifference(unsigned char *p1, unsigned char *p2);
 
 int     imgGetSumArea( Image *img,                      // Image to analyze 

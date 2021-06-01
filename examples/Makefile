@@ -4,7 +4,7 @@
 CFLAGS=-I../src -g -Wall -Wextra
 LDFLAGS=-L ../src 
 LDLIBS=-lm -leasimage
-EXAMPLES=blur easimgview sdlimgview
+EXAMPLES=blur easimgview camview sdlimgview
 
 default: blur
 
@@ -20,6 +20,9 @@ sdlimgview: sdlimgview.c
 	gcc -I/usr/include/SDL $^ -o $@ -lSDL
 
 easimgview: easimgview.c
+	gcc -Wall -o $@ $< -l easimage
+
+camview: camview.c
 	gcc -Wall -o $@ $< -l easimage
 
 clean:

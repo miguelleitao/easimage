@@ -8,6 +8,9 @@
 
 int Verbose=0;
 
+Image *img;
+
+
 long int GetTime()
 {
    //return elapsed time in milisec;
@@ -79,7 +82,8 @@ void Usage(char *pname) {
 int GetParams(int argc, char **argv) {
         argc--;
 	char **aval = argv + 1;
-        while ( argc>0 && aval[0][0]=='-' ) {
+        while ( argc>0 ) {
+            if ( aval[0][0]=='-' ) {
                 switch( aval[0][1] ) {
 		    case 'v':
 			Verbose = 1;
@@ -87,6 +91,11 @@ int GetParams(int argc, char **argv) {
                     default:
                         Usage(argv[0]);
                         return -1;
+                }
+            }
+            else {
+                Usage("./harpa");
+                return -1;
             }
             argc--;
             aval++;
@@ -95,35 +104,29 @@ int GetParams(int argc, char **argv) {
 }
 
 
-int main(int argc, char *argv[])
+int main(int argc, char * argv[])
 {
-	printf("\neasimgview v1.2.1\n\n");
+	printf("\nimgview v1.2.1\n\n");
 
-	argc = GetParams(argc,argv);
+	GetParams(argc,argv);
 
 	// initialise the library
 	init_easimage();
 
-printf("argc:%d\n", argc);
-	Image *img;
-	if ( argc>0 )  	img = imgFromFile(argv[1]);
-	else 		img = imgFromPPM("sample.ppm");
-
-        if ( ! img ) {
-	    Usage(argv[0]);
-	    quit_easimage();
-	    exit(1);
-	}
-
 	Viewer *view = NULL;
-        // create a new viewer of the used resolution with a caption
-        view = viewOpen(img->width, img->height, "Easimgview");
+	// create a new viewer of the used resolution with a caption
+        view = viewOpen(640, 400, "Easimgview");
+	
+	// open the webcam, with a capture resolution of width 640 and height 480
+	Camera * cam = camOpen("/dev/video0", 640, 480, YUYV); //BGR24);
+	//cam->format = RGB24;
+
+	Image * img = imgNew(cam->width, cam->height, 24);
+	img->format = RGB24;
+	//Image * img = imgFromPPM("sample.ppm");
 
 	int i;
 	int end = 0;
-
-        viewDisplayImage(view, img);
-
 	printf("Entering main loop\n");
 	for ( i=0 ; i<100000 && !end ; i++ ) {
 
@@ -144,8 +147,15 @@ printf("argc:%d\n", argc);
 			    	    break;
 			    }
 		}
+	        // capture an image from the webcam
+	        if (camGrabImage(cam,img)) {
+		    fprintf(stderr, "Image not got\n");
+	            break;
+	    	}
 	
-		sleep(1);
+		//Image * img = imgFromBitmap("room4l.bmp");
+	
+		viewDisplayImage(view, img);
 		    
 	}
 	printf("%d images processed in %.1f seconds. %.2f img/sec\n\n", 
@@ -154,6 +164,7 @@ printf("argc:%d\n", argc);
 	// now we will free the memory for the various objects
 	imgDestroy(img);
 	viewClose(view);
+	camClose(cam);
 
 	// finally we unintialise the library
 	quit_easimage();
