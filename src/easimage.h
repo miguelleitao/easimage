@@ -37,13 +37,13 @@ struct Buffer;
 
 //! Represents an image capturing device
 typedef struct {
-	unsigned int width;	 ///< The width of the camera frame (Number of columns)
-	unsigned int height;	 ///< The height of the camera frame  (Number of rows)
-	unsigned int format;	 ///< Format identifier
-	char *name;	 	 ///< The name of the device
-	int handle;		 ///< The stream handle
-	struct Buffer * buffers; ///< location of image buffers
-	unsigned int n_buffers;	 ///< Number of allocated buffers
+	unsigned int width;	 	///< The width of the camera frame (Number of columns)
+	unsigned int height;	 	///< The height of the camera frame  (Number of rows)
+	unsigned int format;		///< Format identifier
+	char *name;	 	 	///< The name of the device
+	int handle;		 	///< The stream handle
+	struct Buffer *buffers;  	///< location of image buffers
+	unsigned int n_buffers;	 	///< Number of allocated buffers
 } Camera;
 
 //! Stores an image
@@ -52,8 +52,8 @@ typedef struct {
 	unsigned int height;		///< The height of the image (Number of rows)
 	unsigned short int depth;	///< The depth of the image (number of bit per pixel)
 	unsigned int format;		///< Format identifier
-	unsigned char * mem_ptr;	///< location of image buffers
-	unsigned char * data;		///< location of pixel data
+	unsigned char *mem_ptr;		///< location of image buffers
+	unsigned char *data;		///< location of pixel data
 	char *name;	 	 	///< The name of the image
 } Image;
 
@@ -61,7 +61,7 @@ typedef struct {
 typedef struct {
 	unsigned int width;		///< The width of the image (Number of columns)
 	unsigned int height;		///< The height of the image (Number of rows)
-	SDL_Surface * screen;		///< Pointer to screen surface
+	SDL_Surface *screen;		///< Pointer to screen surface
 } Viewer;
 
 

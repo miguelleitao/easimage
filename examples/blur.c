@@ -20,7 +20,9 @@ int main() {
 	viewDisplayImage(vKern,iKern);
 	waitTime(8000);
 	viewClose(vKern);
+	vKern = NULL;
 	imgDestroy(iKern);	
+iKern = NULL;
 	quit_easimage();
 	exit(0);
 }

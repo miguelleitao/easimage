@@ -6,7 +6,7 @@ LDFLAGS=-L ../src
 LDLIBS=-lm -leasimage
 EXAMPLES=blur easimgview camview sdlimgview
 
-default: blur
+default: ${EXAMPLES}
 
 all: ${EXAMPLES} 
 

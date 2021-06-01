@@ -16,7 +16,11 @@ small computing devices.
 
 ### Dependencies 
 
-    SDL-devel
+# SDL
+SDL can be installed on Debian derivatives using:
+    apt install libsdl-devel_1.2
+To install SDL on Fedora  nd derivatives, use:
+    dnf install DSL-devel
 
 ### Building **easimage**
 
@@ -29,6 +33,13 @@ small computing devices.
 **easimage** home page is located on: http://miguelleitao.github.io/easimage/  
 **easimage** documentation is available from https://codedocs.xyz/miguelleitao/easimage/  
 Latest **easimage** source code is maintained at: https://github.com/miguelleitao/easimage/
+
+### Examples
+Some examples are included in the examples/ folder:
+* easimgview:    Basic image viewer using the easimage library. Supports BMP and PPM file formats.
+* camview:       Basic camera viewer using the easimage library.
+* sdlimgview:    Basic SDL image viewer. Does not use the easimage library. Only supports BMP file format.
+* blur:          Gaussian kernel construction and convolution implementation example.
 
 ### Authors
 **easimage** is maintained by Miguel Leitao.  
