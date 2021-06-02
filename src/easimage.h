@@ -105,6 +105,7 @@ Image  *imgFromPPM(const char *filename);
 Image  *imgFromFile(const char *filename);
 int 	imgSavePPM(Image *img, char *fname);
 int     imgSavePAM(Image *img, char *fname);
+int	imgSaveRAW(Image *img, char *fname);
 Image  *imgCopy(Image * img);
 void 	imgScale(Image *img, unsigned int sfactor);
 Image  *imgCrop(Image *img, int x1, int y1, int x2, int y2);
@@ -128,9 +129,9 @@ float 	imgGetMean(Image *img);
 
 unsigned int imgGetWidth(Image * img);
 unsigned int imgGetHeight(Image * img);
-void imgSetPixel(Image * img, unsigned int x, unsigned int y, unsigned char *pdata);
-void imgSetPixelRGB(Image * img, unsigned int x, unsigned int y, unsigned char r, unsigned char g, unsigned char b);
-void imgSetPixelRGBA(Image * img, unsigned int x, unsigned int y, unsigned char r, unsigned char g, unsigned char b, unsigned char a);
+void 	 imgSetPixel(Image * img, unsigned int x, unsigned int y, unsigned char *pdata);
+void 	 imgSetPixelRGB(Image * img, unsigned int x, unsigned int y, unsigned char r, unsigned char g, unsigned char b);
+void 	 imgSetPixelRGBA(Image * img, unsigned int x, unsigned int y, unsigned char r, unsigned char g, unsigned char b, unsigned char a);
 
 unsigned char * imgGetPixel(Image * img, unsigned int x, unsigned int y);
 unsigned char * imgPixel(Image * img, unsigned int x, unsigned int y);

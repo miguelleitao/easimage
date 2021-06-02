@@ -611,15 +611,19 @@ int imgGetPixelDifference(unsigned char *p1, unsigned char *p2)
  *  This is usually adequated for processing Image @p img1 through kernel Image @p img2.
  *  Image @p img2 should have odd dimensions.
  *  Image @p img2 must use a pixel depth of 8 bits or the same pixel depth as Image @p img1.
- *  @param img Image structur location
- *  @param x pixel column number
- *  @param y pixel row number
+ *  @param img Location of Image structure
+ *  @param x Number of pixel columns 
+ *  @param y Number of pixel rows 
  *  @return The convolution resulting Image.
  */
 Image * imgConvolution(Image *img1, Image *img2, Image *res)
 {
-	unsigned long fscale = 255 * img2->width * img2->height;
-	if ( ! res ) res = imgNew(img1->width,img1->height,img1->depth);
+	float mean = imgGetMean(img2);
+	unsigned long fscale = mean * img2->width * img2->height;
+	if ( ! res ) {
+	    res = imgNew(img1->width, img1->height, img1->depth);
+	    res->format = img1->format;
+	}
 	int x1, y1, x2, y2;
 	const int xc = img2->width / 2;
 	const int yc = img2->height / 2;
@@ -645,8 +649,11 @@ Image * imgConvolution(Image *img1, Image *img2, Image *res)
 	    	}
 	    }
 	    unsigned char rpix[img1->depth/8];
-	    for( c=0 ; c<img1->depth/8 ; c++ )
-                rpix[c] = acc[c]/fscale;
+	    for( c=0 ; c<img1->depth/8 ; c++ ) {
+		unsigned long accs = acc[c]/fscale;
+		if ( accs>255 )	accs = 255;
+                rpix[c] = accs;
+	    }
 	    imgSetPixel(res,x1,y1,rpix);
 	}
 	return res;
@@ -694,7 +701,15 @@ void imgDestroy(Image * img)
 	free(img);
 }
 
-
+//! Save RAW file.
+/*!
+ *  Creates (or overwrites) a new file @fname to store Image @p img.
+ *  Image is stored in RAW format, without any header or metadata.
+ *
+ *  @param img Image to be stored.
+ *  @param fname Name of the destination file.
+ *  @return 0 on success and 1 on error.
+ */
 int imgSaveRAW(Image *img, char *fname) {
     printf("writing frame with %d bytes, into file '%s'\n",img->depth/8,fname);
     int outfd = open(fname, O_WRONLY);
