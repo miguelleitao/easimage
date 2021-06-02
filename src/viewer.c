@@ -55,29 +55,46 @@ void viewClose(Viewer * view)
  */
 void viewDisplayImage(Viewer * view, Image * img)
 {
-	Uint32 r_mask = 0x000000ff;
-	Uint32 g_mask = 0x0000ff00;
-	Uint32 b_mask = 0x00ff0000;
-	Uint32 a_mask = 0x00000000;
-
 	if ( img==NULL ) {
-		fprintf(stderr,"No image to display\n");
+		fprintf(stderr,"DisplayImage:No image to display\n");
 		return;
 	}
 	if ( img->format == YUYV ) {
 		fprintf(stderr,"Display of YUYV image is not implemented\n");
 		return;
 	}
-	if ( img->format == RGB24 )  {
-		r_mask = 0xff0000;
-		b_mask = 0x0000ff;
-	}
-	if ( img->format == RGBA32 ) 
-		a_mask = 0xff000000;
-	if ( img->format == GREY ) {
-		r_mask = g_mask = b_mask = 0x0000ff;
+	#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+	    Uint32 r_mask = 0xff000000;
+            Uint32 g_mask = 0x00ff0000;
+            Uint32 b_mask = 0x0000ff00;
+            Uint32 a_mask = 0x00000000;
+	    if ( img->format == RGB24 )  {
+		b_mask = 0xff0000;
+		r_mask = 0x0000ff;
+	    }
+	    if ( img->format == RGBA32 ) 
+		a_mask = 0x000000ff;
+	    if ( img->format == GREY ) {
+		r_mask = g_mask = b_mask = 0xff0000;
 		a_mask = 0x0;
-	}
+	    }
+	#else
+            Uint32 r_mask = 0x000000ff;
+            Uint32 g_mask = 0x0000ff00;
+            Uint32 b_mask = 0x00ff0000;
+            Uint32 a_mask = 0x00000000;
+            if ( img->format == RGB24 )  {
+                r_mask = 0xff0000;
+                b_mask = 0x0000ff;
+            }
+            if ( img->format == RGBA32 )
+                a_mask = 0xff000000;
+            if ( img->format == GREY ) {
+                r_mask = g_mask = b_mask = 0x0000ff;
+                a_mask = 0x0;
+            }
+	#endif
+
         if ( view==NULL ) {
 		printf("Creating new viewer\n");
                 view = viewOpen(img->width,img->height,img->name);
@@ -98,7 +115,7 @@ void viewDisplayImage(Viewer * view, Image * img)
 
 	// check the surface was initialised
 	if (surf == NULL) {
-		perror("Display image");
+		fprintf(stderr,"DisplayImage:SDL_CreateRGBSurface() failed: %s", SDL_GetError());
 		return;
 	}
 
