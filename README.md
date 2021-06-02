@@ -19,7 +19,7 @@ small computing devices.
 ### SDL
 SDL can be installed on Debian derivatives using:
 
-    apt install libsdl-devel_1.2
+    apt install libsdl1.2-dev
 
 To install SDL on Fedora and derivatives, use:
 
