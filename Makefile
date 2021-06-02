@@ -30,4 +30,8 @@ install: src/libeasimage.so
 	echo /usr/local/lib >/etc/ld.so.conf.d/usr-local.conf
 	ldconfig
 
+push:
+	git add .
+	git commit -m "update"
+	git push
 

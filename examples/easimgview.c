@@ -8,18 +8,15 @@
 
 int Verbose=0;
 
-#define QUOTE(name) #name
-#define STR(macro) QUOTE(macro)
-
 long int GetTime()
 {
    //return elapsed time in milisec;
-   static time_t init_t = -1;
+   static time_t init_t = -1L;
    struct timeval t;
    gettimeofday(&t,NULL);
    if ( init_t == -1L ) {
         init_t = t.tv_sec;
-        printf("Timer reseted at %ld.%06ldsec\n",t.tv_sec,t.tv_usec);
+//        printf("Timer reseted at %ld.%06ldsec\n",t.tv_sec,t.tv_usec);
    }
    long int res = 1000L*(t.tv_sec-init_t)+t.tv_usec/1000L;
    //printf("GetTime res=%ld\n",res);
@@ -126,6 +123,8 @@ int main(int argc, char *argv[])
 
         viewDisplayImage(view, img);
 
+	GetTime();
+
 	//printf("Entering main loop\n");
 	for ( i=0 ; i<100000 && !end ; i++ ) {
 		if ( kbhit() ) {
@@ -161,7 +160,7 @@ int main(int argc, char *argv[])
 		    
 	}
 	printf("%d images processed in %.1f seconds. %.2f img/sec\n\n", 
-		i, GetTime()/100., i*1000./GetTime() );
+		i, GetTime()/1000., i*1000./GetTime() );
 
 	// now we will free the memory for the various objects
 	imgDestroy(img);

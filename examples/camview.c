@@ -19,7 +19,6 @@ long int GetTime()
    gettimeofday(&t,NULL);
    if ( init_t == -1L ) {
         init_t = t.tv_sec;
-        printf("Timer reseted at %ld.%06ldsec\n",t.tv_sec,t.tv_usec);
    }
    long int res = 1000L*(t.tv_sec-init_t)+t.tv_usec/1000L;
    //printf("GetTime res=%ld\n",res);
@@ -106,32 +105,35 @@ int GetParams(int argc, char **argv) {
 
 int main(int argc, char * argv[])
 {
-	printf("\nimgview v1.2.1\n\n");
+	printf("\ncamview %s\n\n", STR(VERSION) );
 
 	GetParams(argc,argv);
 
 	// initialise the library
 	init_easimage();
 
-	Viewer *view = NULL;
-	// create a new viewer of the used resolution with a caption
-        view = viewOpen(640, 400, "Easimgview");
-	
 	// open the webcam, with a capture resolution of width 640 and height 480
 	Camera * cam = camOpen("/dev/video0", 640, 480, YUYV); //BGR24);
 	//cam->format = RGB24;
+	if ( ! cam ) {
+	        fprintf(stderr, "camOpen failed.\n");
+		exit(1);
+	}
+
+	Viewer *view = NULL;
+        // create a new viewer of the used resolution with a caption
+        view = viewOpen(cam->width, cam->height, "camview");
+
 
 	Image * img = imgNew(cam->width, cam->height, 24);
 	img->format = RGB24;
-	//Image * img = imgFromPPM("sample.ppm");
 
 	int i;
 	int end = 0;
-	printf("Entering main loop\n");
+	GetTime();
 	for ( i=0 ; i<100000 && !end ; i++ ) {
-
 		if ( kbhit() ) {
-		    // Tecla pressionada
+		    // Key pressed
 		    int c = getchar();
 			    switch (c) {
 				case 'q':
@@ -143,23 +145,35 @@ int main(int argc, char * argv[])
 				    Help();
 				    break;
 				default:
-				    printf("teclou %d=%c\n",c,c);
+				    printf("key pressed: %d=%c\n",c,c);
 			    	    break;
 			    }
 		}
+
+                SDL_Event Event;
+                while (viewPollEvent(&Event)) {
+                    switch (Event.type) {
+                        case SDL_QUIT:          // Quit program
+                            end = 1;
+                            break;
+                        case SDL_KEYDOWN:       // Quit program
+                            if (Event.key.keysym.sym == SDLK_q)
+                                end = 1;
+                            break;
+                    }
+                }
+
 	        // capture an image from the webcam
 	        if (camGrabImage(cam,img)) {
-		    fprintf(stderr, "Image not got\n");
+		    fprintf(stderr, "GrabImage: Image not got\n");
 	            break;
 	    	}
-	
-		//Image * img = imgFromBitmap("room4l.bmp");
 	
 		viewDisplayImage(view, img);
 		    
 	}
 	printf("%d images processed in %.1f seconds. %.2f img/sec\n\n", 
-		i, GetTime()/100., i*1000./GetTime() );
+		i, GetTime()/1000., i*1000./GetTime() );
 
 	// now we will free the memory for the various objects
 	imgDestroy(img);

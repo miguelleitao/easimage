@@ -9,15 +9,20 @@
 
 #include <SDL.h>
 
+#define QUOTE(name) #name
+#define STR(macro) QUOTE(macro)
+
 int main(int argc, char **argv) {
-    //The images
+    printf("\nsdlimgview %s\n\n", STR(VERSION) );
+
+    // The images
     SDL_Surface* image = NULL;
     SDL_Surface* screen = NULL;
 
-    //Start SDL
+    // Start SDL
     SDL_Init( SDL_INIT_VIDEO );
 
-    //Load image
+    // Load image
     if ( argc>1 && argv[1][0] )
 	image = SDL_LoadBMP( argv[1] );
     else
@@ -29,13 +34,13 @@ int main(int argc, char **argv) {
 	exit(1);
     }
 
-    //Set up screen
+    // Set up screen
     screen = SDL_SetVideoMode( image->w, image->h, 24, SDL_SWSURFACE );
 
-    //Apply image to screen
+    // Apply image to screen
     SDL_BlitSurface( image, NULL, screen, NULL );
 
-    //Update Screen
+    // Update Screen
     SDL_Flip( screen );
 
     // Wait for event
@@ -56,11 +61,11 @@ int main(int argc, char **argv) {
 	SDL_Delay(20);
     }
 
-    //Free the loaded image
+    // Free the loaded image
     SDL_FreeSurface( image );
     SDL_FreeSurface( screen );
 
-    //Quit SDL
+    // Quit SDL
     SDL_Quit();
 
     return 0;

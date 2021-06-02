@@ -13,6 +13,9 @@
 #include <linux/videodev2.h>
 #include <SDL/SDL.h>
 
+#define QUOTE(name) #name
+#define STR(macro) QUOTE(macro)
+
 /** \defgroup format Image storing formats 
  *  \addtogroup format
  *  @{
