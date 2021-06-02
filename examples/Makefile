@@ -6,6 +6,8 @@ LDFLAGS=-L ../src
 LDLIBS=-lm -leasimage
 EXAMPLES=blur easimgview camview sdlimgview
 
+VERSION:=$(shell git describe --tags --long)
+
 default: ${EXAMPLES}
 
 all: ${EXAMPLES} 
@@ -17,13 +19,16 @@ memtest: blur
 	LD_LIBRARY_PATH=../src valgrind --leak-check=full --show-leak-kinds=all -v ./blur
 
 sdlimgview: sdlimgview.c
-	gcc -I/usr/include/SDL $^ -o $@ -lSDL
+	gcc -I/usr/include/SDL -DVERSION=${VERSION} $^ -o $@ -lSDL
 
-easimgview: easimgview.c
+easimgview: easimgview.o
 	gcc -Wall -o $@ $< -l easimage
 
-camview: camview.c
+camview: camview.o
 	gcc -Wall -o $@ $< -l easimage
+
+%.o: %.c 
+	gcc -Wall -O2 -c -DVERSION=${VERSION} -o $@ $<
 
 clean:
-	rm -rf ${EXAMPLES}
+	rm -rf ${EXAMPLES} *.o

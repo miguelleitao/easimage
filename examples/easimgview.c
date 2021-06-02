@@ -8,6 +8,9 @@
 
 int Verbose=0;
 
+#define QUOTE(name) #name
+#define STR(macro) QUOTE(macro)
+
 long int GetTime()
 {
    //return elapsed time in milisec;
@@ -97,14 +100,13 @@ int GetParams(int argc, char **argv) {
 
 int main(int argc, char *argv[])
 {
-	printf("\neasimgview v1.2.1\n\n");
+	printf("\neasimgview %s\n\n", STR(VERSION) );
 
 	argc = GetParams(argc,argv);
 
 	// initialise the library
 	init_easimage();
 
-printf("argc:%d\n", argc);
 	Image *img;
 	if ( argc>0 )  	img = imgFromFile(argv[1]);
 	else 		img = imgFromPPM("default.ppm");
@@ -124,7 +126,7 @@ printf("argc:%d\n", argc);
 
         viewDisplayImage(view, img);
 
-	printf("Entering main loop\n");
+	//printf("Entering main loop\n");
 	for ( i=0 ; i<100000 && !end ; i++ ) {
 		if ( kbhit() ) {
 		    // Tecla pressionada
@@ -139,7 +141,7 @@ printf("argc:%d\n", argc);
 				    Help();
 				    break;
 				default:
-				    printf("teclou %d=%c\n",c,c);
+				    printf("key %d=%c\n",c,c);
 			    	    break;
 			    }
 		}

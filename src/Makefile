@@ -17,7 +17,7 @@ libeasimage.so: camera.o image.o viewer.o util.o
 	gcc -shared -Wall -O2 -Wl,-soname,$@,-z,defs -o $@ $^ -lSDL -lm
 
 %.o: %.c easimage.h
-	gcc -Wall -fPIC -O2 -c -o $@ $< 
+	gcc -Wall -fPIC -O2 -c -DVERSION=${VERSION} -o $@ $< 
 
 clean:
 	${RM} -- *.o *.so *.a ${TARGET}
