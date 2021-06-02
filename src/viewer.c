@@ -119,10 +119,6 @@ void viewDisplayImage(Viewer * view, Image * img)
 		return;
 	}
 
-	// Define image position
-	SDL_Rect DestR;
-	DestR.x = 0; 
-	DestR.y = 0; 
 	// Blit the image to the window surface
 	int res = SDL_BlitSurface(surf, NULL, view->screen, NULL);
 	if ( res ) fprintf(stderr,"Bilt error: %s\n", SDL_GetError());
