@@ -11,8 +11,7 @@ all: easimage
 easimage: ${TARGET}
 
 install: ${TARGET}
-	cp $< /usr/lib/
-	cp easimage.h /usr/include/
+	make -c .. install
 
 libeasimage.so: camera.o image.o viewer.o util.o
 	gcc -shared -Wall -O2 -Wl,-soname,$@,-z,defs -o $@ $^ -lSDL -lm
