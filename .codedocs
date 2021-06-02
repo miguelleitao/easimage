@@ -1,7 +1,6 @@
-# CodeDocs.xyz Configuration File
+# CodeDocs Configuration File
 #
-# Rename this example to '.codedocs' and put it in the root directory of your
-# repository. This file is optional, documentation will still be generated
+# This file is optional, documentation will still be generated
 # without it using sensible defaults.
 
 #---------------------------------------------------------------------------
