@@ -27,12 +27,11 @@
 
 #include "easimage.h"
 
-
+// Should be moved to .h file
 struct Buffer {
 	struct v4l2_buffer buf;
-	unsigned char * start;
+	unsigned char *start;
 };
-
 
 static void errno_exit(const char *s)
 {

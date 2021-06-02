@@ -11,7 +11,7 @@ all: easimage
 easimage: ${TARGET}
 
 install: ${TARGET}
-	make -c .. install
+	make -C .. install
 
 libeasimage.so: camera.o image.o viewer.o util.o
 	gcc -shared -Wall -O2 -Wl,-soname,$@,-z,defs -o $@ $^ -lSDL -lm
