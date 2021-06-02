@@ -107,7 +107,7 @@ int main(int argc, char *argv[])
 printf("argc:%d\n", argc);
 	Image *img;
 	if ( argc>0 )  	img = imgFromFile(argv[1]);
-	else 		img = imgFromPPM("sample.ppm");
+	else 		img = imgFromPPM("default.ppm");
 
         if ( ! img ) {
 	    Usage(argv[0]);
@@ -126,7 +126,6 @@ printf("argc:%d\n", argc);
 
 	printf("Entering main loop\n");
 	for ( i=0 ; i<100000 && !end ; i++ ) {
-
 		if ( kbhit() ) {
 		    // Tecla pressionada
 		    int c = getchar();
@@ -144,8 +143,19 @@ printf("argc:%d\n", argc);
 			    	    break;
 			    }
 		}
-	
-		sleep(1);
+		SDL_Event Event;
+		while (viewPollEvent(&Event)) {
+	            switch (Event.type) {
+		        case SDL_QUIT:		// Quit program
+			    end = 1;
+			    break;
+			case SDL_KEYDOWN: 	// Quit program
+			    if (Event.key.keysym.sym == SDLK_q) 
+				end = 1;
+			    break;
+	    	    }
+        	}
+		usleep(100000);
 		    
 	}
 	printf("%d images processed in %.1f seconds. %.2f img/sec\n\n", 

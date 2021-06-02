@@ -21,7 +21,7 @@ int main(int argc, char **argv) {
     if ( argc>1 && argv[1][0] )
 	image = SDL_LoadBMP( argv[1] );
     else
-        image = SDL_LoadBMP( "hello.bmp" );
+        image = SDL_LoadBMP( "default.bmp" );
 
     if ( ! image ) {
 	fprintf(stderr, "Image not loaded.\n");

@@ -145,8 +145,18 @@ Viewer * viewOpen(unsigned int width, unsigned int height, const char * title);
  *  Image @p img is presented on viewer window @p view.
  *  Viewer window must be previously created using @c viewOpen()
  */
-void viewDisplayImage(Viewer * view, Image * img);
-void viewClose(Viewer * view);
+void viewDisplayImage(Viewer *view, Image *img);
+//! Terminates the viewer
+/*!
+ *  Viwer @p view is terminated and window is closed.
+ *  Viewer window must be previously created using @c viewOpen()
+ */
+void viewClose(Viewer *view);
+//! Polls for currently pending events
+/*!
+ *  Polls for currently pending events, and returns 1 if there are any pending events, or 0 if there are none available.
+ */
+int  viewPollEvent(SDL_Event *event);
 /** @}*/
 
 #endif // _EASIMAGE_H_

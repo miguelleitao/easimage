@@ -45,6 +45,10 @@ void viewClose(Viewer * view)
 	free(view);
 }
 
+int viewPollEvent(SDL_Event *event) {
+	return SDL_PollEvent(event);
+}
+
 
 //! Displays an image on a Window
 /*!
