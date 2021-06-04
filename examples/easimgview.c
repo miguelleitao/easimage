@@ -1,67 +1,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "easimage.h"
-#include <unistd.h>
-#include <sys/wait.h>
-#include <termios.h>
-#include <fcntl.h>
+//include <unistd.h>
+//include <sys/wait.h>
+//include <termios.h>
+//include <fcntl.h>
 
 int Verbose=0;
-
-long int GetTime()
-{
-   //return elapsed time in milisec;
-   static time_t init_t = -1L;
-   struct timeval t;
-   gettimeofday(&t,NULL);
-   if ( init_t == -1L ) {
-        init_t = t.tv_sec;
-//        printf("Timer reseted at %ld.%06ldsec\n",t.tv_sec,t.tv_usec);
-   }
-   long int res = 1000L*(t.tv_sec-init_t)+t.tv_usec/1000L;
-   //printf("GetTime res=%ld\n",res);
-   return res;
-}
-
-int kbhit(void)
-{
-  struct termios oldt, newt;
-  int ch;
-  int oldf;
- 
-  tcgetattr(STDIN_FILENO, &oldt);
-  newt = oldt;
-  newt.c_lflag &= ~(ICANON | ECHO);
-  tcsetattr(STDIN_FILENO, TCSANOW, &newt);
-  oldf = fcntl(STDIN_FILENO, F_GETFL, 0);
-  fcntl(STDIN_FILENO, F_SETFL, oldf | O_NONBLOCK);
- 
-  ch = getchar();
- 
-  tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
-  fcntl(STDIN_FILENO, F_SETFL, oldf);
- 
-  if(ch != EOF) {
-    ungetc(ch, stdin);
-    return 1;
-  } 
-  return 0;
-}
-
-void MarkImagePositionRGB(Image * img, int x, int y, 
-	unsigned char r, unsigned char g, unsigned char b) {
-    if ( ! img ) return;
-    int len=7;
-    int i;
-    for( i=-len ; i<=len ; i++ ) {
-        imgSetPixelRGB(img, x, y+i, r, g, b);
-        imgSetPixelRGB(img, x+i, y, r, g, b);
-    }
-}
-
-void MarkImagePosition(Image * img, int x, int y) {
-	MarkImagePositionRGB(img,x,y,0,0,255);
-}
 
 void Help() {
     printf("\nAvailable commands:\n");
@@ -119,14 +64,14 @@ int main(int argc, char *argv[])
         view = viewOpen(img->width, img->height, "Easimgview");
 
 	int i;
-	int end = 0;
+//	int end = 0;
 
         viewDisplayImage(view, img);
 
 	GetTime();
 
 	//printf("Entering main loop\n");
-	for ( i=0 ; i<100000 && !end ; i++ ) {
+	for ( i=0 ; i<100000 && ! easimageAppEnd ; i++ ) {
 		if ( kbhit() ) {
 		    // Tecla pressionada
 		    int c = getchar();
@@ -134,7 +79,7 @@ int main(int argc, char *argv[])
 				case 'q':
 				case 'Q':
 				case 27:  // Esc
-				    end = 1;
+				    easimageAppEnd = 1;
 				    break;
 				case 'h':
 				    Help();
@@ -148,15 +93,15 @@ int main(int argc, char *argv[])
 		while (viewPollEvent(&Event)) {
 	            switch (Event.type) {
 		        case SDL_QUIT:		// Quit program
-			    end = 1;
+			    easimageAppEnd = 1;
 			    break;
 			case SDL_KEYDOWN: 	// Quit program
 			    if (Event.key.keysym.sym == SDLK_q) 
-				end = 1;
+				easimageAppEnd = 1;
 			    break;
 	    	    }
         	}
-		usleep(100000);
+		waitTime(100);
 		    
 	}
 	printf("%d images processed in %.1f seconds. %.2f img/sec\n\n", 

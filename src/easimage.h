@@ -34,6 +34,10 @@
 #define min(a,b) ( a<b ? a : b )
 #define max(a,b) ( a>b ? a : b )
 
+
+//! Global termination flag
+extern int easimageAppEnd;
+
 //! Memory block to store image data
 //forward declarations of internal types
 struct Buffer;
@@ -159,7 +163,7 @@ Viewer * viewOpen(unsigned int width, unsigned int height, const char * title);
 void viewDisplayImage(Viewer *view, Image *img);
 //! Terminates the viewer
 /*!
- *  Viwer @p view is terminated and window is closed.
+ *  Viewer @p view is terminated and window is closed.
  *  Viewer window must be previously created using @c viewOpen()
  */
 void viewClose(Viewer *view);

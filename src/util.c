@@ -14,6 +14,8 @@
 #include <unistd.h>
 #include <fcntl.h>
 
+int easimageAppEnd = 0;
+
 // initialise
 void init_easimage()
 {
@@ -33,6 +35,15 @@ void init_easimage()
  */
 void waitTime(unsigned int msec)
 {
+    while( msec>100 ) {
+	#ifdef _SDL_H
+            SDL_Delay(100);
+        #else
+            usleep(100*1000);
+	#endif
+	msec -= 100;
+	if ( easimageAppEnd ) return;
+    }
     #ifdef _SDL_H
 	SDL_Delay(msec);
     #else
@@ -44,6 +55,7 @@ void waitTime(unsigned int msec)
 //! Quit
 void quit_easimage()
 {
+    easimageAppEnd = 1;
     #ifdef _SDH_H
 	SDL_Quit();
     #endif

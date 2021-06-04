@@ -11,60 +11,6 @@ int Verbose=0;
 Image *img;
 
 
-long int GetTime()
-{
-   //return elapsed time in milisec;
-   static time_t init_t = -1;
-   struct timeval t;
-   gettimeofday(&t,NULL);
-   if ( init_t == -1L ) {
-        init_t = t.tv_sec;
-   }
-   long int res = 1000L*(t.tv_sec-init_t)+t.tv_usec/1000L;
-   //printf("GetTime res=%ld\n",res);
-   return res;
-}
-
-int kbhit(void)
-{
-  struct termios oldt, newt;
-  int ch;
-  int oldf;
- 
-  tcgetattr(STDIN_FILENO, &oldt);
-  newt = oldt;
-  newt.c_lflag &= ~(ICANON | ECHO);
-  tcsetattr(STDIN_FILENO, TCSANOW, &newt);
-  oldf = fcntl(STDIN_FILENO, F_GETFL, 0);
-  fcntl(STDIN_FILENO, F_SETFL, oldf | O_NONBLOCK);
- 
-  ch = getchar();
- 
-  tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
-  fcntl(STDIN_FILENO, F_SETFL, oldf);
- 
-  if(ch != EOF) {
-    ungetc(ch, stdin);
-    return 1;
-  } 
-  return 0;
-}
-
-void MarkImagePositionRGB(Image * img, int x, int y, 
-	unsigned char r, unsigned char g, unsigned char b) {
-    if ( ! img ) return;
-    int len=7;
-    int i;
-    for( i=-len ; i<=len ; i++ ) {
-        imgSetPixelRGB(img, x, y+i, r, g, b);
-        imgSetPixelRGB(img, x+i, y, r, g, b);
-    }
-}
-
-void MarkImagePosition(Image * img, int x, int y) {
-	MarkImagePositionRGB(img,x,y,0,0,255);
-}
-
 void Help() {
     printf("\nAvailable commands:\n");
     printf("\th     This help\n");
