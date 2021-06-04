@@ -75,39 +75,10 @@ int main(int argc, char * argv[])
 	img->format = RGB24;
 
 	int i;
-	int end = 0;
 	GetTime();
-	for ( i=0 ; i<100000 && !end ; i++ ) {
-		if ( kbhit() ) {
-		    // Key pressed
-		    int c = getchar();
-			    switch (c) {
-				case 'q':
-				case 'Q':
-				case 27:  // Esc
-				    end = 1;
-				    break;
-				case 'h':
-				    Help();
-				    break;
-				default:
-				    printf("key pressed: %d=%c\n",c,c);
-			    	    break;
-			    }
-		}
+	for ( i=0 ; i<100000 && ! easimageAppEnd ; i++ ) {
 
-                SDL_Event Event;
-                while (viewPollEvent(&Event)) {
-                    switch (Event.type) {
-                        case SDL_QUIT:          // Quit program
-                            end = 1;
-                            break;
-                        case SDL_KEYDOWN:       // Quit program
-                            if (Event.key.keysym.sym == SDLK_q)
-                                end = 1;
-                            break;
-                    }
-                }
+                appProcEvents();
 
 	        // capture an image from the webcam
 	        if (camGrabImage(cam,img)) {

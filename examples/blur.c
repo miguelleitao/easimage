@@ -35,8 +35,8 @@ int main() {
 	assert(vOut);
 	viewDisplayImage(vOut, iOut);
 
-	
-	waitTime(40000);
+	while( ! easimageAppEnd )
+	    appProcEvents();
 
 	viewClose(vOut);
 	imgDestroy(iOut);

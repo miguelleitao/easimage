@@ -84,6 +84,7 @@ void quit_easimage();
 void waitTime(unsigned int milliseconds);
 long int GetTime();
 int kbhit();
+int appProcEvents();
 
 /** @}*/
 

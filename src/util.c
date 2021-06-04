@@ -14,6 +14,8 @@
 #include <unistd.h>
 #include <fcntl.h>
 
+#include "easimage.h"
+
 int easimageAppEnd = 0;
 
 // initialise
@@ -105,5 +107,38 @@ int kbhit(void)
     return 1;
   }
   return 0;
+}
+
+int appProcEvents() {
+               if ( kbhit() ) {
+                    // Tecla pressionada
+                    int c = getchar();
+                    switch (c) {
+                       case 'q':
+                       case 'Q':
+                       case 27:  // Esc
+                           easimageAppEnd = 1;
+                           break;
+                       default:
+                           printf("key %d=%c\n",c,c);
+                           break;
+                    }
+                }
+                SDL_Event Event;
+                while (viewPollEvent(&Event)) {
+                    switch (Event.type) {
+                        case SDL_QUIT:          // Quit program
+                            easimageAppEnd = 1;
+                            break;
+                        case SDL_KEYDOWN:       // Quit program
+                            if (Event.key.keysym.sym == SDLK_q)
+                                easimageAppEnd = 1;
+                            if (Event.key.keysym.sym == SDLK_ESCAPE)
+                                easimageAppEnd = 1;
+                            break;
+                    }
+                }
+                waitTime(100);
+		return easimageAppEnd;
 }
 

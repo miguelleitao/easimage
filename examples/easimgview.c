@@ -63,49 +63,16 @@ int main(int argc, char *argv[])
         // create a new viewer of the used resolution with a caption
         view = viewOpen(img->width, img->height, "Easimgview");
 
-	int i;
-//	int end = 0;
-
         viewDisplayImage(view, img);
 
 	GetTime();
 
 	//printf("Entering main loop\n");
-	for ( i=0 ; i<100000 && ! easimageAppEnd ; i++ ) {
-		if ( kbhit() ) {
-		    // Tecla pressionada
-		    int c = getchar();
-			    switch (c) {
-				case 'q':
-				case 'Q':
-				case 27:  // Esc
-				    easimageAppEnd = 1;
-				    break;
-				case 'h':
-				    Help();
-				    break;
-				default:
-				    printf("key %d=%c\n",c,c);
-			    	    break;
-			    }
-		}
-		SDL_Event Event;
-		while (viewPollEvent(&Event)) {
-	            switch (Event.type) {
-		        case SDL_QUIT:		// Quit program
-			    easimageAppEnd = 1;
-			    break;
-			case SDL_KEYDOWN: 	// Quit program
-			    if (Event.key.keysym.sym == SDLK_q) 
-				easimageAppEnd = 1;
-			    break;
-	    	    }
-        	}
-		waitTime(100);
-		    
-	}
-	printf("%d images processed in %.1f seconds. %.2f img/sec\n\n", 
-		i, GetTime()/1000., i*1000./GetTime() );
+	while( ! easimageAppEnd )
+		appProcEvents();
+
+	printf("Image presented for %.1f seconds.\n\n", 
+		GetTime()/1000. );
 
 	// now we will free the memory for the various objects
 	imgDestroy(img);
