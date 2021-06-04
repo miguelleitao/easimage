@@ -78,6 +78,9 @@ void init_easimage();
 /** @brief Quit easimage */
 void quit_easimage();
 void waitTime(unsigned int milliseconds);
+long int GetTime();
+int kbhit();
+
 /** @}*/
 
 /** \defgroup camera Camera operations 
@@ -135,6 +138,10 @@ void 	 imgSetPixelRGBA(Image * img, unsigned int x, unsigned int y, unsigned cha
 
 unsigned char * imgGetPixel(Image * img, unsigned int x, unsigned int y);
 unsigned char * imgPixel(Image * img, unsigned int x, unsigned int y);
+
+void MarkImagePositionRGB(Image * img, int x, int y, unsigned char r, unsigned char g, unsigned char b);
+void MarkImagePosition(Image * img, int x, int y);
+
 /** @}*/
 
 /* Viewer operations */

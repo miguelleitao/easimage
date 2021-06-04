@@ -805,6 +805,23 @@ int imgSavePAM(Image *img, char *fname) {
     return 0;
 }
 
+
+void MarkImagePositionRGB(Image * img, int x, int y,
+        unsigned char r, unsigned char g, unsigned char b) {
+    if ( ! img ) return;
+    int len=7;
+    int i;
+    for( i=-len ; i<=len ; i++ ) {
+        imgSetPixelRGB(img, x, y+i, r, g, b);
+        imgSetPixelRGB(img, x+i, y, r, g, b);
+    }
+}
+
+void MarkImagePosition(Image * img, int x, int y) {
+        MarkImagePositionRGB(img,x,y,0,0,255);
+}
+
+
 /**
  *  @}
  */
