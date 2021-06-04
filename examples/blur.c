@@ -12,7 +12,7 @@
 int main() {
 	init_easimage();
 
-	Image *iKern = imgCreateGaussian(7, 0.);
+	Image *iKern = imgCreateGaussian(11, 0.);
 	assert(iKern);
 	imgSavePAM(iKern, "gauss.pam");
 	Viewer *vKern = viewOpen(iKern->width,iKern->height, "Gaussian");
